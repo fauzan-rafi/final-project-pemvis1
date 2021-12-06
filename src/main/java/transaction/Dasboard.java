@@ -4,6 +4,9 @@
  */
 package transaction;
 
+import asset.RoundedPanel;
+import java.awt.Color;
+
 /**
  *
  * @author fauzan
@@ -26,20 +29,209 @@ public class Dasboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        navbarPanel = new javax.swing.JPanel();
+        profilePanel = new javax.swing.JPanel();
+        mainPanel = new javax.swing.JPanel();
+        dashboardPanel = new javax.swing.JPanel();
+        judulLabel = new javax.swing.JLabel();
+        totalKeuanganPanel = new javax.swing.JPanel();
+        totalLabel = new javax.swing.JLabel();
+        kategoriKeuanganPanel = new javax.swing.JPanel();
+        judulKategoriLabel = new javax.swing.JLabel();
+        pengeluaranPanel = new javax.swing.JPanel();
+        outcomeJudulLabel = new javax.swing.JLabel();
+        statisticPanel = new javax.swing.JPanel();
+        statisticJudulPanel = new javax.swing.JLabel();
+        createTransactionPanel = new javax.swing.JPanel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setSize(new java.awt.Dimension(1080, 800));
+
+        navbarPanel.setLayout(new java.awt.GridLayout());
+
+        profilePanel.setPreferredSize(new java.awt.Dimension(230, 400));
+        profilePanel.setSize(new java.awt.Dimension(230, 400));
+
+        javax.swing.GroupLayout profilePanelLayout = new javax.swing.GroupLayout(profilePanel);
+        profilePanel.setLayout(profilePanelLayout);
+        profilePanelLayout.setHorizontalGroup(
+            profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 230, Short.MAX_VALUE)
+        );
+        profilePanelLayout.setVerticalGroup(
+            profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 800, Short.MAX_VALUE)
+        );
+
+        navbarPanel.add(profilePanel);
+
+        mainPanel.setMaximumSize(new java.awt.Dimension(1080, 800));
+        mainPanel.setPreferredSize(new java.awt.Dimension(720, 800));
+        mainPanel.setLayout(new java.awt.CardLayout());
+
+        dashboardPanel.setBackground(new java.awt.Color(246, 242, 212));
+        dashboardPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        dashboardPanel.setMaximumSize(new java.awt.Dimension(1080, 800));
+        dashboardPanel.setPreferredSize(new java.awt.Dimension(720, 800));
+
+        judulLabel.setBackground(new java.awt.Color(34, 87, 126));
+        judulLabel.setFont(new java.awt.Font("Ubuntu", 1, 36)); // NOI18N
+        judulLabel.setForeground(new java.awt.Color(34, 87, 126));
+        judulLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        judulLabel.setText("Dashboard");
+
+        totalLabel.setFont(new java.awt.Font("Ubuntu", 1, 20)); // NOI18N
+        totalLabel.setText("Total Keuangan");
+
+        javax.swing.GroupLayout totalKeuanganPanelLayout = new javax.swing.GroupLayout(totalKeuanganPanel);
+        totalKeuanganPanel.setLayout(totalKeuanganPanelLayout);
+        totalKeuanganPanelLayout.setHorizontalGroup(
+            totalKeuanganPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(totalKeuanganPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(totalLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        totalKeuanganPanelLayout.setVerticalGroup(
+            totalKeuanganPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(totalKeuanganPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(totalLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(142, Short.MAX_VALUE))
+        );
+
+        judulKategoriLabel.setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
+        judulKategoriLabel.setText("Sparate By Category");
+
+        javax.swing.GroupLayout kategoriKeuanganPanelLayout = new javax.swing.GroupLayout(kategoriKeuanganPanel);
+        kategoriKeuanganPanel.setLayout(kategoriKeuanganPanelLayout);
+        kategoriKeuanganPanelLayout.setHorizontalGroup(
+            kategoriKeuanganPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(kategoriKeuanganPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(judulKategoriLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(91, Short.MAX_VALUE))
+        );
+        kategoriKeuanganPanelLayout.setVerticalGroup(
+            kategoriKeuanganPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(kategoriKeuanganPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(judulKategoriLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(147, Short.MAX_VALUE))
+        );
+
+        outcomeJudulLabel.setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
+        outcomeJudulLabel.setText("Outcome");
+
+        javax.swing.GroupLayout pengeluaranPanelLayout = new javax.swing.GroupLayout(pengeluaranPanel);
+        pengeluaranPanel.setLayout(pengeluaranPanelLayout);
+        pengeluaranPanelLayout.setHorizontalGroup(
+            pengeluaranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pengeluaranPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(outcomeJudulLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pengeluaranPanelLayout.setVerticalGroup(
+            pengeluaranPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pengeluaranPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(outcomeJudulLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(125, Short.MAX_VALUE))
+        );
+
+        statisticJudulPanel.setFont(new java.awt.Font("Ubuntu", 1, 20)); // NOI18N
+        statisticJudulPanel.setText("Recent Payments");
+
+        javax.swing.GroupLayout statisticPanelLayout = new javax.swing.GroupLayout(statisticPanel);
+        statisticPanel.setLayout(statisticPanelLayout);
+        statisticPanelLayout.setHorizontalGroup(
+            statisticPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(statisticPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(statisticJudulPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(300, Short.MAX_VALUE))
+        );
+        statisticPanelLayout.setVerticalGroup(
+            statisticPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(statisticPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(statisticJudulPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout dashboardPanelLayout = new javax.swing.GroupLayout(dashboardPanel);
+        dashboardPanel.setLayout(dashboardPanelLayout);
+        dashboardPanelLayout.setHorizontalGroup(
+            dashboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dashboardPanelLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(dashboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(dashboardPanelLayout.createSequentialGroup()
+                        .addComponent(judulLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(dashboardPanelLayout.createSequentialGroup()
+                        .addGroup(dashboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(kategoriKeuanganPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(totalKeuanganPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(pengeluaranPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                        .addComponent(statisticPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        dashboardPanelLayout.setVerticalGroup(
+            dashboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dashboardPanelLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(judulLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addGroup(dashboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(dashboardPanelLayout.createSequentialGroup()
+                        .addComponent(totalKeuanganPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                        .addComponent(kategoriKeuanganPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addComponent(pengeluaranPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(statisticPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        mainPanel.add(dashboardPanel, "card2");
+
+        javax.swing.GroupLayout createTransactionPanelLayout = new javax.swing.GroupLayout(createTransactionPanel);
+        createTransactionPanel.setLayout(createTransactionPanelLayout);
+        createTransactionPanelLayout.setHorizontalGroup(
+            createTransactionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 896, Short.MAX_VALUE)
+        );
+        createTransactionPanelLayout.setVerticalGroup(
+            createTransactionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 800, Short.MAX_VALUE)
+        );
+
+        mainPanel.add(createTransactionPanel, "card3");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(navbarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 896, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(navbarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
-        pack();
+        setLocation(new java.awt.Point(0, 0));
     }// </editor-fold>//GEN-END:initComponents
 
     /**
@@ -78,5 +270,19 @@ public class Dasboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel createTransactionPanel;
+    private javax.swing.JPanel dashboardPanel;
+    private javax.swing.JLabel judulKategoriLabel;
+    private javax.swing.JLabel judulLabel;
+    private javax.swing.JPanel kategoriKeuanganPanel;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JPanel navbarPanel;
+    private javax.swing.JLabel outcomeJudulLabel;
+    private javax.swing.JPanel pengeluaranPanel;
+    private javax.swing.JPanel profilePanel;
+    private javax.swing.JLabel statisticJudulPanel;
+    private javax.swing.JPanel statisticPanel;
+    private javax.swing.JPanel totalKeuanganPanel;
+    private javax.swing.JLabel totalLabel;
     // End of variables declaration//GEN-END:variables
 }
