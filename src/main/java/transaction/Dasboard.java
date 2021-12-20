@@ -6,6 +6,12 @@ package transaction;
 
 import asset.RoundedPanel;
 import java.awt.Color;
+import java.sql.Connection;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+import model.Config;
 
 /**
  *
@@ -16,10 +22,86 @@ public class Dasboard extends javax.swing.JFrame {
     /**
      * Creates new form Dasboard
      */
+    Config config = new Config();
+    
     public Dasboard() {
         initComponents();
+        setKomponen();
+        setTampil();
+        loadData();
     }
 
+    private void setKomponen(){
+        arrPanel = new JPanel[]{dashboardPanel, createTransactionPanel};
+        arrButton = new JButton[]{dashboardBtn, addDataBtn};
+    }
+    
+    private void setTampil(){
+        for(int i = 0; i < arrPanel.length; i++){
+            if(i < panelPilihan){
+                arrButton[i].setVisible(true);
+                arrPanel[i].setVisible(false);
+            } else if(i == panelPilihan){
+                arrButton[i].setVisible(true);
+                arrPanel[i].setVisible(true);
+            } else {
+                arrPanel[i].setVisible(true);
+            }
+        }
+        
+        if (panelPilihan == 0){
+            kembaliButton.setEnabled(false);
+            lanjutButton.setEnabled(true);
+        } else if(panelPilihan == arrPanel.length - 1){
+            kembaliButton.setEnabled(true);
+            lanjutButton.setEnabled(false);
+        } else {
+            kembaliButton.setEnabled(true);
+            lanjutButton.setEnabled(true);
+        }
+    }
+    
+    
+//    Show data From DB to table transaksi
+    private void loadData(){
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Kode Transaksi");
+        model.addColumn("Tipe Pembayaran");
+        model.addColumn("Waktu Transaksi");
+        model.addColumn("Besar Transaksi");
+        model.addColumn("Keterangan");
+        
+        try{
+            String query = "SELECT * FROM transactions";
+            java.sql.Connection conn = (Connection)config.configDB();
+            java.sql.Statement stm=conn.createStatement();
+            java.sql.ResultSet res=stm.executeQuery(query);
+            while(res.next()){
+                String code = res.getString("code");
+                String type = res.getString("type");
+                String date = res.getString("date");
+                String value = res.getString("value");
+                String desc = res.getString("description");
+                
+                 model.addRow(new Object[]{ code,
+                                            type,
+                                            date,
+                                            value,
+                                            desc});
+            }
+            transaksiTbl.setModel(model);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Error" + e.getMessage());
+        }
+    }
+    
+    // dashboard utama total keuangan
+    private int totalKeuangan(){
+        String query = "SELECT SUM(transakctions.value)";
+        int totalKeuangan = 0;
+        return totalKeuangan;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,6 +113,11 @@ public class Dasboard extends javax.swing.JFrame {
 
         navbarPanel = new javax.swing.JPanel();
         profilePanel = new javax.swing.JPanel();
+        dashboardBtn = new javax.swing.JButton();
+        addDataBtn = new javax.swing.JButton();
+        lanjutButton = new javax.swing.JButton();
+        kembaliButton = new javax.swing.JButton();
+        logoutBtn = new javax.swing.JButton();
         mainPanel = new javax.swing.JPanel();
         dashboardPanel = new javax.swing.JPanel();
         judulLabel = new javax.swing.JLabel();
@@ -43,11 +130,20 @@ public class Dasboard extends javax.swing.JFrame {
         statisticPanel = new javax.swing.JPanel();
         statisticJudulPanel = new javax.swing.JLabel();
         createTransactionPanel = new javax.swing.JPanel();
+        judulLbl = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        transaksiTbl = new javax.swing.JTable();
+        judulInputLbl = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        keperluanForm = new javax.swing.JTextArea();
+        valueForm = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1080, 800));
-
-        navbarPanel.setLayout(new java.awt.GridLayout());
 
         profilePanel.setPreferredSize(new java.awt.Dimension(230, 400));
         profilePanel.setSize(new java.awt.Dimension(230, 400));
@@ -60,10 +156,82 @@ public class Dasboard extends javax.swing.JFrame {
         );
         profilePanelLayout.setVerticalGroup(
             profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGap(0, 154, Short.MAX_VALUE)
         );
 
-        navbarPanel.add(profilePanel);
+        dashboardBtn.setText("Dashboard");
+        dashboardBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dashboardBtnActionPerformed(evt);
+            }
+        });
+
+        addDataBtn.setText("Lihat Rincian");
+        addDataBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addDataBtnActionPerformed(evt);
+            }
+        });
+
+        lanjutButton.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        lanjutButton.setText(">>");
+        lanjutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lanjutButtonActionPerformed(evt);
+            }
+        });
+
+        kembaliButton.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        kembaliButton.setText("<<");
+        kembaliButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                kembaliButtonActionPerformed(evt);
+            }
+        });
+
+        logoutBtn.setText("Logout");
+        logoutBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout navbarPanelLayout = new javax.swing.GroupLayout(navbarPanel);
+        navbarPanel.setLayout(navbarPanelLayout);
+        navbarPanelLayout.setHorizontalGroup(
+            navbarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, navbarPanelLayout.createSequentialGroup()
+                .addComponent(profilePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(navbarPanelLayout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addGroup(navbarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(navbarPanelLayout.createSequentialGroup()
+                        .addComponent(kembaliButton, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lanjutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dashboardBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addDataBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        navbarPanelLayout.setVerticalGroup(
+            navbarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(navbarPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(profilePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(dashboardBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(addDataBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(navbarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(kembaliButton)
+                    .addComponent(lanjutButton))
+                .addContainerGap())
+        );
 
         mainPanel.setMaximumSize(new java.awt.Dimension(1080, 800));
         mainPanel.setPreferredSize(new java.awt.Dimension(720, 800));
@@ -175,7 +343,7 @@ public class Dasboard extends javax.swing.JFrame {
                             .addComponent(kategoriKeuanganPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(totalKeuanganPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(pengeluaranPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(statisticPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -198,15 +366,82 @@ public class Dasboard extends javax.swing.JFrame {
 
         mainPanel.add(dashboardPanel, "card2");
 
+        createTransactionPanel.setBackground(new java.awt.Color(246, 242, 212));
+
+        judulLbl.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
+        judulLbl.setForeground(new java.awt.Color(53, 53, 53));
+        judulLbl.setText("Data Transaksi");
+
+        jScrollPane1.setViewportView(transaksiTbl);
+
+        judulInputLbl.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
+        judulInputLbl.setForeground(new java.awt.Color(53, 53, 53));
+        judulInputLbl.setText("Masukan Transaksi");
+
+        jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(53, 53, 53));
+        jLabel1.setText("Keperluan :");
+
+        jLabel2.setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(53, 53, 53));
+        jLabel2.setText("Jumlah :");
+
+        jLabel3.setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(53, 53, 53));
+        jLabel3.setText("Kategori : ");
+
+        keperluanForm.setColumns(20);
+        keperluanForm.setForeground(new java.awt.Color(61, 61, 61));
+        keperluanForm.setLineWrap(true);
+        keperluanForm.setRows(5);
+        jScrollPane2.setViewportView(keperluanForm);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout createTransactionPanelLayout = new javax.swing.GroupLayout(createTransactionPanel);
         createTransactionPanel.setLayout(createTransactionPanelLayout);
         createTransactionPanelLayout.setHorizontalGroup(
             createTransactionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 896, Short.MAX_VALUE)
+            .addGroup(createTransactionPanelLayout.createSequentialGroup()
+                .addGap(87, 87, 87)
+                .addGroup(createTransactionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(judulLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(judulInputLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(createTransactionPanelLayout.createSequentialGroup()
+                        .addGroup(createTransactionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
+                        .addGap(100, 100, 100)
+                        .addGroup(createTransactionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+                            .addComponent(valueForm)
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
         createTransactionPanelLayout.setVerticalGroup(
             createTransactionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGroup(createTransactionPanelLayout.createSequentialGroup()
+                .addGap(72, 72, 72)
+                .addComponent(judulLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(judulInputLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
+                .addGroup(createTransactionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39)
+                .addGroup(createTransactionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(valueForm, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(61, 61, 61)
+                .addGroup(createTransactionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         mainPanel.add(createTransactionPanel, "card3");
@@ -217,7 +452,7 @@ public class Dasboard extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(navbarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(navbarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 896, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -233,6 +468,34 @@ public class Dasboard extends javax.swing.JFrame {
 
         setLocation(new java.awt.Point(0, 0));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void lanjutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lanjutButtonActionPerformed
+        // TODO add your handling code here:
+        panelPilihan += 1;
+        setTampil();
+    }//GEN-LAST:event_lanjutButtonActionPerformed
+
+    private void kembaliButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kembaliButtonActionPerformed
+        // TODO add your handling code here:
+        panelPilihan -= 1;
+        setTampil();
+    }//GEN-LAST:event_kembaliButtonActionPerformed
+
+    private void dashboardBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardBtnActionPerformed
+        // TODO add your handling code here:
+        panelPilihan = 0;
+        setTampil();
+    }//GEN-LAST:event_dashboardBtnActionPerformed
+
+    private void addDataBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDataBtnActionPerformed
+        // TODO add your handling code here:
+        panelPilihan = 1;
+        setTampil();
+    }//GEN-LAST:event_addDataBtnActionPerformed
+
+    private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_logoutBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -270,11 +533,25 @@ public class Dasboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addDataBtn;
     private javax.swing.JPanel createTransactionPanel;
+    private javax.swing.JButton dashboardBtn;
     private javax.swing.JPanel dashboardPanel;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel judulInputLbl;
     private javax.swing.JLabel judulKategoriLabel;
     private javax.swing.JLabel judulLabel;
+    private javax.swing.JLabel judulLbl;
     private javax.swing.JPanel kategoriKeuanganPanel;
+    private javax.swing.JButton kembaliButton;
+    private javax.swing.JTextArea keperluanForm;
+    private javax.swing.JButton lanjutButton;
+    private javax.swing.JButton logoutBtn;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel navbarPanel;
     private javax.swing.JLabel outcomeJudulLabel;
@@ -284,5 +561,14 @@ public class Dasboard extends javax.swing.JFrame {
     private javax.swing.JPanel statisticPanel;
     private javax.swing.JPanel totalKeuanganPanel;
     private javax.swing.JLabel totalLabel;
+    private javax.swing.JTable transaksiTbl;
+    private javax.swing.JTextField valueForm;
     // End of variables declaration//GEN-END:variables
+
+    JPanel[] arrPanel;
+    JButton[] arrButton;
+    
+    int panelPilihan = 0;
+    
+
 }

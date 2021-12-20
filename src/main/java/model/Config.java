@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 public class Config {
     private static Connection mysqlconfig;
+    
     public static Connection configDB()throws SQLException{
         try {
             String url="jdbc:mysql://localhost:3306/saku"; //url database
