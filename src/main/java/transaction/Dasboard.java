@@ -31,8 +31,8 @@ public class Dasboard extends javax.swing.JFrame {
     }
     
     private void setBtn(){
-        arrButton = new JButton[]{dashboardBtn, kategoriBtn, transaksiBtn, laporanBtn, profileBtn};
-        arrPanel = new JPanel[]{dashboardPnl,kategoriPnl, transaksiPnl, laporanPnl, profilePnl};
+        arrButton = new JButton[]{dashboardBtn, transaksiBtn, kategoriBtn, laporanBtn, profileBtn};
+        arrPanel = new JPanel[]{dashboardPnl, transaksiPnl, kategoriPnl, laporanPnl, profilePnl};
     }
     
     private void setViewBtn(){
@@ -91,10 +91,15 @@ public class Dasboard extends javax.swing.JFrame {
         mainPanel = new javax.swing.JPanel();
         dashboardPnl = new javax.swing.JPanel();
         judulDashboardLbl = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         transaksiPnl = new javax.swing.JPanel();
+        judulTransaksiPnl = new javax.swing.JLabel();
         kategoriPnl = new javax.swing.JPanel();
+        judulKategoriPnl = new javax.swing.JLabel();
         laporanPnl = new javax.swing.JPanel();
+        judulLaporanPnl = new javax.swing.JLabel();
         profilePnl = new javax.swing.JPanel();
+        judulProfilePnl = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sakuku");
@@ -111,8 +116,9 @@ public class Dasboard extends javax.swing.JFrame {
         judulLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         judulLabel.setText("<html>Sistem<br/>Keuangan</html>");
 
-        dashboardBtn.setFont(new java.awt.Font("Ubuntu", 1, 24));
+        dashboardBtn.setFont(new java.awt.Font("Roboto", 1, 18));
         dashboardBtn.setForeground(new java.awt.Color(255, 255, 255));
+        dashboardBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/homeIconBtn.png"))); // NOI18N
         dashboardBtn.setText("Dashboard");
         dashboardBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         dashboardBtn.setIconTextGap(50);
@@ -122,8 +128,9 @@ public class Dasboard extends javax.swing.JFrame {
             }
         });
 
-        transaksiBtn.setFont(new java.awt.Font("Ubuntu", 1, 24));
+        transaksiBtn.setFont(new java.awt.Font("Roboto", 1, 18));
         transaksiBtn.setForeground(new java.awt.Color(255, 255, 255));
+        transaksiBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/transaksiIconBtn.png"))); // NOI18N
         transaksiBtn.setText("Transaksi");
         transaksiBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         transaksiBtn.setIconTextGap(50);
@@ -133,8 +140,9 @@ public class Dasboard extends javax.swing.JFrame {
             }
         });
 
-        kategoriBtn.setFont(new java.awt.Font("Ubuntu", 1, 24));
+        kategoriBtn.setFont(new java.awt.Font("Roboto", 1, 18));
         kategoriBtn.setForeground(new java.awt.Color(255, 255, 255));
+        kategoriBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/kategoriIconBtn.png"))); // NOI18N
         kategoriBtn.setText("Kategori");
         kategoriBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         kategoriBtn.setIconTextGap(50);
@@ -144,8 +152,9 @@ public class Dasboard extends javax.swing.JFrame {
             }
         });
 
-        laporanBtn.setFont(new java.awt.Font("Ubuntu", 1, 24));
+        laporanBtn.setFont(new java.awt.Font("Ubuntu", 1, 18));
         laporanBtn.setForeground(new java.awt.Color(255, 255, 255));
+        laporanBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/laporanIconBtn.png"))); // NOI18N
         laporanBtn.setText("Laporan");
         laporanBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         laporanBtn.setIconTextGap(50);
@@ -155,9 +164,10 @@ public class Dasboard extends javax.swing.JFrame {
             }
         });
 
-        profileBtn.setFont(new java.awt.Font("Ubuntu", 1, 24));
+        profileBtn.setFont(new java.awt.Font("Ubuntu", 1, 18));
         profileBtn.setForeground(new java.awt.Color(255, 255, 255));
-        profileBtn.setText("Laporan");
+        profileBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/profileIconBtn.png"))); // NOI18N
+        profileBtn.setText("Profile");
         profileBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         profileBtn.setIconTextGap(50);
         profileBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -209,7 +219,13 @@ public class Dasboard extends javax.swing.JFrame {
 
         judulDashboardLbl.setFont(new java.awt.Font("Roboto", 1, 18));
         judulDashboardLbl.setForeground(new java.awt.Color(255, 255, 255));
-        judulDashboardLbl.setText("a");
+        judulDashboardLbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/breadCrumbDashboard.png"))); // NOI18N
+
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Roboto", 1, 36));
+        jLabel1.setForeground(new java.awt.Color(45, 55, 72));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel1.setText("Insight Untukmu");
 
         javax.swing.GroupLayout dashboardPnlLayout = new javax.swing.GroupLayout(dashboardPnl);
         dashboardPnl.setLayout(dashboardPnlLayout);
@@ -217,67 +233,117 @@ public class Dasboard extends javax.swing.JFrame {
             dashboardPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dashboardPnlLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(judulDashboardLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(924, Short.MAX_VALUE))
+                .addGroup(dashboardPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(judulDashboardLbl))
+                .addContainerGap(723, Short.MAX_VALUE))
         );
         dashboardPnlLayout.setVerticalGroup(
             dashboardPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dashboardPnlLayout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addComponent(judulDashboardLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(836, Short.MAX_VALUE))
+                .addGap(71, 71, 71)
+                .addComponent(judulDashboardLbl)
+                .addGap(43, 43, 43)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(805, Short.MAX_VALUE))
         );
 
         mainPanel.add(dashboardPnl, "card2");
+
+        transaksiPnl.setBackground(new java.awt.Color(255, 255, 255));
+
+        judulTransaksiPnl.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        judulTransaksiPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/breadCrumbTransaksi.png"))); // NOI18N
 
         javax.swing.GroupLayout transaksiPnlLayout = new javax.swing.GroupLayout(transaksiPnl);
         transaksiPnl.setLayout(transaksiPnlLayout);
         transaksiPnlLayout.setHorizontalGroup(
             transaksiPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1161, Short.MAX_VALUE)
+            .addGroup(transaksiPnlLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(judulTransaksiPnl, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(948, Short.MAX_VALUE))
         );
         transaksiPnlLayout.setVerticalGroup(
             transaksiPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1024, Short.MAX_VALUE)
+            .addGroup(transaksiPnlLayout.createSequentialGroup()
+                .addGap(62, 62, 62)
+                .addComponent(judulTransaksiPnl, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(924, Short.MAX_VALUE))
         );
 
         mainPanel.add(transaksiPnl, "card3");
+
+        kategoriPnl.setBackground(new java.awt.Color(255, 255, 255));
+        kategoriPnl.setMaximumSize(new java.awt.Dimension(1161, 1024));
+
+        judulKategoriPnl.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        judulKategoriPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/breadCrumbKategori.png"))); // NOI18N
 
         javax.swing.GroupLayout kategoriPnlLayout = new javax.swing.GroupLayout(kategoriPnl);
         kategoriPnl.setLayout(kategoriPnlLayout);
         kategoriPnlLayout.setHorizontalGroup(
             kategoriPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1161, Short.MAX_VALUE)
+            .addGroup(kategoriPnlLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(judulKategoriPnl, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(954, Short.MAX_VALUE))
         );
         kategoriPnlLayout.setVerticalGroup(
             kategoriPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1024, Short.MAX_VALUE)
+            .addGroup(kategoriPnlLayout.createSequentialGroup()
+                .addGap(61, 61, 61)
+                .addComponent(judulKategoriPnl, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(924, Short.MAX_VALUE))
         );
 
         mainPanel.add(kategoriPnl, "card4");
+
+        laporanPnl.setBackground(new java.awt.Color(255, 255, 255));
+        laporanPnl.setMaximumSize(new java.awt.Dimension(1161, 1024));
+
+        judulLaporanPnl.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        judulLaporanPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/breadCrumbLaporan.png"))); // NOI18N
 
         javax.swing.GroupLayout laporanPnlLayout = new javax.swing.GroupLayout(laporanPnl);
         laporanPnl.setLayout(laporanPnlLayout);
         laporanPnlLayout.setHorizontalGroup(
             laporanPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1161, Short.MAX_VALUE)
+            .addGroup(laporanPnlLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(judulLaporanPnl, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(962, Short.MAX_VALUE))
         );
         laporanPnlLayout.setVerticalGroup(
             laporanPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1024, Short.MAX_VALUE)
+            .addGroup(laporanPnlLayout.createSequentialGroup()
+                .addGap(59, 59, 59)
+                .addComponent(judulLaporanPnl, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(926, Short.MAX_VALUE))
         );
 
         mainPanel.add(laporanPnl, "card5");
+
+        profilePnl.setBackground(new java.awt.Color(255, 255, 255));
+
+        judulProfilePnl.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        judulProfilePnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/breadCrumbProfil.png"))); // NOI18N
 
         javax.swing.GroupLayout profilePnlLayout = new javax.swing.GroupLayout(profilePnl);
         profilePnl.setLayout(profilePnlLayout);
         profilePnlLayout.setHorizontalGroup(
             profilePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1161, Short.MAX_VALUE)
+            .addGroup(profilePnlLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(judulProfilePnl, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(951, Short.MAX_VALUE))
         );
         profilePnlLayout.setVerticalGroup(
             profilePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1024, Short.MAX_VALUE)
+            .addGroup(profilePnlLayout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(judulProfilePnl, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(922, Short.MAX_VALUE))
         );
 
         mainPanel.add(profilePnl, "card6");
@@ -303,8 +369,6 @@ public class Dasboard extends javax.swing.JFrame {
     private void dashboardBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardBtnActionPerformed
         panelPilihan = 0;
         setViewBtn();
-        ImageIcon icon = createImageIcon("/asset/breadCrumbDashboard.png","p");
-        dashboardBtn.setIcon(icon);
     }//GEN-LAST:event_dashboardBtnActionPerformed
 
     private void transaksiBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transaksiBtnActionPerformed
@@ -365,8 +429,13 @@ public class Dasboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton dashboardBtn;
     private javax.swing.JPanel dashboardPnl;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel judulDashboardLbl;
+    private javax.swing.JLabel judulKategoriPnl;
     private javax.swing.JLabel judulLabel;
+    private javax.swing.JLabel judulLaporanPnl;
+    private javax.swing.JLabel judulProfilePnl;
+    private javax.swing.JLabel judulTransaksiPnl;
     private javax.swing.JButton kategoriBtn;
     private javax.swing.JPanel kategoriPnl;
     private javax.swing.JButton laporanBtn;
