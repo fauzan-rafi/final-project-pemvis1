@@ -209,7 +209,7 @@ public class Dasboard extends javax.swing.JFrame {
 
         judulDashboardLbl.setFont(new java.awt.Font("Roboto", 1, 18));
         judulDashboardLbl.setForeground(new java.awt.Color(255, 255, 255));
-        judulDashboardLbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/breadCrumbDashboard.png"))); // NOI18N
+        judulDashboardLbl.setText("a");
 
         javax.swing.GroupLayout dashboardPnlLayout = new javax.swing.GroupLayout(dashboardPnl);
         dashboardPnl.setLayout(dashboardPnlLayout);
@@ -224,8 +224,8 @@ public class Dasboard extends javax.swing.JFrame {
             dashboardPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dashboardPnlLayout.createSequentialGroup()
                 .addGap(58, 58, 58)
-                .addComponent(judulDashboardLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(938, Short.MAX_VALUE))
+                .addComponent(judulDashboardLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(836, Short.MAX_VALUE))
         );
 
         mainPanel.add(dashboardPnl, "card2");
@@ -303,7 +303,7 @@ public class Dasboard extends javax.swing.JFrame {
     private void dashboardBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardBtnActionPerformed
         panelPilihan = 0;
         setViewBtn();
-        ImageIcon icon = createImageIcon("/gambar/Dashboard.png","p");
+        ImageIcon icon = createImageIcon("/asset/breadCrumbDashboard.png","p");
         dashboardBtn.setIcon(icon);
     }//GEN-LAST:event_dashboardBtnActionPerformed
 
