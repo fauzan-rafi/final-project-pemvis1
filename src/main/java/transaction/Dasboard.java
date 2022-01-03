@@ -6,6 +6,9 @@ package transaction;
 
 import javax.swing.*;
 import java.awt.Color;
+import java.sql.Connection;
+import javax.swing.table.DefaultTableModel;
+import model.Config;
 
 /**
  *
@@ -13,21 +16,24 @@ import java.awt.Color;
  */
 public class Dasboard extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Dasboard
-     */
+    Config config = new Config();
+    
     public Dasboard() {
         initComponents();
+        setLayoutMain();
+        setBtn();
+        setViewBtn();
+        
+        
+    }
+    
+    private void setLayoutMain(){
         setSize(1440,1024);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setTitle("SakuKu");
         navbarPanel.setSize(279, 1024);
-        setBtn();
-        setViewBtn();
-        
-        
     }
     
     private void setBtn(){
@@ -49,6 +55,8 @@ public class Dasboard extends javax.swing.JFrame {
             } else if(i == panelPilihan){
                 arrButton[i].setEnabled(true);
                 arrButton[i].setVisible(true);
+                arrButton[i].setBorderPainted(true);
+                arrButton[i].setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
                 arrPanel[i].setVisible(true);
             } else {
                 arrButton[i].setEnabled(true);
@@ -61,14 +69,33 @@ public class Dasboard extends javax.swing.JFrame {
         }
     }
     
-    protected ImageIcon createImageIcon(String path, String description) {
-        java.net.URL imgURL = getClass().getResource(path);
-        if (imgURL != null) {
-            return new ImageIcon(imgURL, description);
-        } else {
-            System.err.println("Couldn't find file: " + path);
-            return null;
-        }
+//    Function CRUD
+    
+//    Get data and show to table
+    private void readData(){
+       // set table model table
+//       DefaultTableModel model = new DefaultTableModel();
+//       model.addColumn("No.");
+//       model.addColumn("Tanggal Transaksi");
+//       model.addColumn("Jenis Transaksi");
+//       model.addColumn("Kategori");
+//       model.addColumn("Jumlah");
+//       model.addColumn("Opsi");
+//       
+//       // get data from db and show into table
+//       try{
+//            int no=1;
+//            String sql = "select * from mhs";
+//            java.sql.Connection conn= (Connection)config.configDB();
+//            java.sql.Statement stm=conn.createStatement();
+//            java.sql.ResultSet res=stm.executeQuery(sql);
+//            while(res.next()){
+//                model.addRow(new Object[]{no++,res.getString(1),res.getString(2),res.getString(3),res.getString(4),res.getString(5)});
+//            }
+//            tableTransaksi.setModel(model);
+//       }catch(Exception e){
+//           JOptionPane.showMessageDialog(this, "Tidak ada data yang dapat di tampilkan");
+//       }
     }
     
 
@@ -94,6 +121,10 @@ public class Dasboard extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         transaksiPnl = new javax.swing.JPanel();
         judulTransaksiPnl = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableTransaksi = new javax.swing.JTable();
+        addTransaksiBtn = new javax.swing.JButton();
         kategoriPnl = new javax.swing.JPanel();
         judulKategoriPnl = new javax.swing.JLabel();
         laporanPnl = new javax.swing.JPanel();
@@ -222,7 +253,7 @@ public class Dasboard extends javax.swing.JFrame {
         judulDashboardLbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/breadCrumbDashboard.png"))); // NOI18N
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setFont(new java.awt.Font("Roboto", 1, 36));
+        jLabel1.setFont(new java.awt.Font("Inter", 1, 36));
         jLabel1.setForeground(new java.awt.Color(45, 55, 72));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel1.setText("Insight Untukmu");
@@ -255,21 +286,62 @@ public class Dasboard extends javax.swing.JFrame {
         judulTransaksiPnl.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         judulTransaksiPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/breadCrumbTransaksi.png"))); // NOI18N
 
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("Inter", 1, 36));
+        jLabel2.setForeground(new java.awt.Color(45, 55, 72));
+        jLabel2.setText("Transaksimu");
+
+        tableTransaksi.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tableTransaksi.setEnabled(false);
+        jScrollPane1.setViewportView(tableTransaksi);
+
+        addTransaksiBtn.setBackground(new java.awt.Color(110, 107, 250));
+        addTransaksiBtn.setFont(new java.awt.Font("Inter", 0, 18)
+        );
+        addTransaksiBtn.setForeground(new java.awt.Color(255, 255, 255));
+        addTransaksiBtn.setText("Tambah Transaksi");
+        addTransaksiBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(110, 107, 250), 0, true));
+        addTransaksiBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addTransaksiBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout transaksiPnlLayout = new javax.swing.GroupLayout(transaksiPnl);
         transaksiPnl.setLayout(transaksiPnlLayout);
         transaksiPnlLayout.setHorizontalGroup(
             transaksiPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(transaksiPnlLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(judulTransaksiPnl, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(948, Short.MAX_VALUE))
+                .addGroup(transaksiPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(judulTransaksiPnl, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addTransaksiBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         transaksiPnlLayout.setVerticalGroup(
             transaksiPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(transaksiPnlLayout.createSequentialGroup()
                 .addGap(62, 62, 62)
                 .addComponent(judulTransaksiPnl, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(924, Short.MAX_VALUE))
+                .addGap(36, 36, 36)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 231, Short.MAX_VALUE)
+                .addComponent(addTransaksiBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(204, 204, 204))
         );
 
         mainPanel.add(transaksiPnl, "card3");
@@ -391,6 +463,10 @@ public class Dasboard extends javax.swing.JFrame {
         setViewBtn();
     }//GEN-LAST:event_profileBtnActionPerformed
 
+    private void addTransaksiBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTransaksiBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addTransaksiBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -427,9 +503,12 @@ public class Dasboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addTransaksiBtn;
     private javax.swing.JButton dashboardBtn;
     private javax.swing.JPanel dashboardPnl;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel judulDashboardLbl;
     private javax.swing.JLabel judulKategoriPnl;
     private javax.swing.JLabel judulLabel;
@@ -444,6 +523,7 @@ public class Dasboard extends javax.swing.JFrame {
     private javax.swing.JPanel navbarPanel;
     private javax.swing.JButton profileBtn;
     private javax.swing.JPanel profilePnl;
+    private javax.swing.JTable tableTransaksi;
     private javax.swing.JButton transaksiBtn;
     private javax.swing.JPanel transaksiPnl;
     // End of variables declaration//GEN-END:variables
