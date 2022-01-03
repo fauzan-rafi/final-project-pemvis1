@@ -72,6 +72,23 @@ public class CreateTransactions extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(this, "Error : "+e);
        }
     }
+    
+    // Add data to transaction table
+    private boolean insertData(int jenis, int kategori, int jumlah, String deskripsi, String tanggal){
+        boolean result = false;
+        try{
+            String sql = "INSERT INTO transaction (categories_id, type, date, value, description) VALUES ("+kategori+","+jenis+","+tanggal+","+jumlah+","+deskripsi+")" ;
+            java.sql.Connection conn= (Connection)config.configDB();
+            java.sql.PreparedStatement pst= conn.prepareStatement(sql);
+            if(pst.execute()){
+                result = true;
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,e.getMessage());
+            result = false;
+        }
+        return result;
+    }
    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -88,13 +105,14 @@ public class CreateTransactions extends javax.swing.JFrame {
         jenisFld = new javax.swing.JComboBox<>();
         submitBtn = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        deskripsiFld = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Add transaction");
         setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(553, 724));
         setMinimumSize(new java.awt.Dimension(553, 724));
-        setPreferredSize(new java.awt.Dimension(553, 724));
         setSize(new java.awt.Dimension(553, 724));
         getContentPane().setLayout(new java.awt.CardLayout());
 
@@ -178,12 +196,24 @@ public class CreateTransactions extends javax.swing.JFrame {
         btnClose.setContentAreaFilled(false);
         btnClose.setFocusPainted(false);
         btnClose.setFocusable(false);
-        btnClose.setOpaque(false);
         btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCloseActionPerformed(evt);
             }
         });
+
+        jLabel5.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel5.setFont(java.awt.Font.getFont(setJudulLabel())
+        );
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel5.setText("Deskripsi : ");
+
+        deskripsiFld.setBackground(new java.awt.Color(255, 255, 255));
+        deskripsiFld.setFont(java.awt.Font.getFont(setKolomLabel())
+        );
+        deskripsiFld.setForeground(new java.awt.Color(0, 0, 0));
+        deskripsiFld.setHorizontalAlignment(javax.swing.JTextField.LEFT);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -201,7 +231,9 @@ public class CreateTransactions extends javax.swing.JFrame {
                             .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(kategoriFld, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dateFld, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(dateFld, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(deskripsiFld, javax.swing.GroupLayout.Alignment.LEADING))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -233,7 +265,11 @@ public class CreateTransactions extends javax.swing.JFrame {
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jumlahFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 187, Short.MAX_VALUE)
+                .addGap(31, 31, 31)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(deskripsiFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addComponent(submitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
@@ -245,13 +281,22 @@ public class CreateTransactions extends javax.swing.JFrame {
 
     private void submitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitBtnActionPerformed
         sdf.applyPattern(dateFld.getDateFormatString());
-        tgl = sdf.format(dateFld.getDate());
-        JOptionPane.showMessageDialog(null, 
-                "Tanggal : " + tgl +
-                "Jenis : " + jenisFld.getSelectedItem() +
-                "Kategori : " + kategoriFld.getSelectedItem() +
-                "Jumlah : " + jumlahFld.getText()
-        );
+        tanggal = sdf.format(dateFld.getDate());
+        int jenis = jenisFld.getSelectedIndex();
+        int kategori = kategoriFld.getSelectedIndex();
+        int jumlah = Integer.parseInt(jumlahFld.getText());
+        String deskripsi = deskripsiFld.getText();
+        
+        if(insertData(jenis, kategori, jumlah, deskripsi, tanggal)){
+            JOptionPane.showMessageDialog(null, 
+                "Tanggal : " + tanggal +
+                "\n Jenis : " + jenisFld.getSelectedItem() +
+                "\n Kategori : " + kategoriFld.getSelectedItem() +
+                "\n Jumlah : " + jumlahFld.getText() +
+                "\n Desc : " + deskripsiFld.getText()
+            );
+        }
+        
     }//GEN-LAST:event_submitBtnActionPerformed
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
@@ -297,10 +342,12 @@ public class CreateTransactions extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
     private com.toedter.calendar.JDateChooser dateFld;
+    private javax.swing.JTextField deskripsiFld;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JComboBox<String> jenisFld;
     private javax.swing.JTextField jumlahFld;
@@ -308,5 +355,5 @@ public class CreateTransactions extends javax.swing.JFrame {
     private javax.swing.JButton submitBtn;
     // End of variables declaration//GEN-END:variables
     SimpleDateFormat sdf = new SimpleDateFormat();
-    String tgl;
+    String tanggal;
 }
