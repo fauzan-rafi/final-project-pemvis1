@@ -6,8 +6,10 @@ package transaction;
 
 import javax.swing.*;
 import java.awt.Color;
+import java.awt.Component;
 import java.sql.Connection;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import model.Config;
 
 /**
@@ -17,13 +19,15 @@ import model.Config;
 public class Dasboard extends javax.swing.JFrame {
 
     Config config = new Config();
+    DefaultTableModel model;
+    JButton edit,delete;
     
     public Dasboard() {
         initComponents();
         setLayoutMain();
         setBtn();
         setViewBtn();
-        
+        readData();
         
     }
     
@@ -73,31 +77,52 @@ public class Dasboard extends javax.swing.JFrame {
     
 //    Get data and show to table
     private void readData(){
+       // set table render
+//       TableCellRenderer tableRenderer;
+//       tableRenderer = tableTransaksi.getDefaultRenderer(JButton.class);
+//       tableTransaksi.setDefaultRenderer(JButton.class, new JTableButtonRenderer(tableRenderer));
        // set table model table
-//       DefaultTableModel model = new DefaultTableModel();
-//       model.addColumn("No.");
-//       model.addColumn("Tanggal Transaksi");
-//       model.addColumn("Jenis Transaksi");
-//       model.addColumn("Kategori");
-//       model.addColumn("Jumlah");
-//       model.addColumn("Opsi");
-//       
-//       // get data from db and show into table
-//       try{
-//            int no=1;
-//            String sql = "select * from mhs";
-//            java.sql.Connection conn= (Connection)config.configDB();
-//            java.sql.Statement stm=conn.createStatement();
-//            java.sql.ResultSet res=stm.executeQuery(sql);
-//            while(res.next()){
-//                model.addRow(new Object[]{no++,res.getString(1),res.getString(2),res.getString(3),res.getString(4),res.getString(5)});
-//            }
-//            tableTransaksi.setModel(model);
-//       }catch(Exception e){
-//           JOptionPane.showMessageDialog(this, "Tidak ada data yang dapat di tampilkan");
-//       }
+       model = new DefaultTableModel();
+       model.addColumn("No.");
+       model.addColumn("Tanggal Transaksi");
+       model.addColumn("Jenis Transaksi");
+       model.addColumn("Kategori");
+       model.addColumn("Jumlah");
+       model.addColumn("Opsi");
+       
+       // get data from db and show into table
+       try{
+            int no=1;
+            String sql = "SELECT transactions.date AS 'date', transactions.type as 'type', categories.title as 'category', transactions.value as 'value' FROM transactions INNER JOIN categories ON categories.id = transactions.cateogries_id";
+            java.sql.Connection conn= (Connection)config.configDB();
+            java.sql.Statement stm=conn.createStatement();
+            java.sql.ResultSet res=stm.executeQuery(sql);
+            while(res.next()){
+                model.addRow(new Object[]{no++,res.getString("date"),res.getString("type"),res.getString("category"),res.getString("value"),"Edit / Delete" });
+            }
+            tableTransaksi.setModel(model);
+       }catch(Exception e){
+           JOptionPane.showMessageDialog(this, "Error : "+e);
+       }
     }
     
+//class JTableButtonRenderer implements TableCellRenderer {
+//   private TableCellRenderer defaultRenderer;
+//   public JTableButtonRenderer(TableCellRenderer renderer) {
+//      defaultRenderer = renderer;
+//   }
+//   
+//   public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+//      if(value instanceof Component)
+//         return (Component)value;
+//         return defaultRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+//   }
+//}
+    
+    private void createData(int id){
+        
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -122,9 +147,9 @@ public class Dasboard extends javax.swing.JFrame {
         transaksiPnl = new javax.swing.JPanel();
         judulTransaksiPnl = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tableTransaksi = new javax.swing.JTable();
         addTransaksiBtn = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableTransaksi = new javax.swing.JTable();
         kategoriPnl = new javax.swing.JPanel();
         judulKategoriPnl = new javax.swing.JLabel();
         laporanPnl = new javax.swing.JPanel();
@@ -291,20 +316,6 @@ public class Dasboard extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(45, 55, 72));
         jLabel2.setText("Transaksimu");
 
-        tableTransaksi.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tableTransaksi.setEnabled(false);
-        jScrollPane1.setViewportView(tableTransaksi);
-
         addTransaksiBtn.setBackground(new java.awt.Color(110, 107, 250));
         addTransaksiBtn.setFont(new java.awt.Font("Inter", 0, 18)
         );
@@ -317,6 +328,21 @@ public class Dasboard extends javax.swing.JFrame {
             }
         });
 
+        tableTransaksi.setAutoCreateRowSorter(true);
+        tableTransaksi.setFont(new java.awt.Font("Inter",0,16)
+        );
+        tableTransaksi.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6"
+            }
+        ));
+        tableTransaksi.setEnabled(false);
+        tableTransaksi.setIntercellSpacing(new java.awt.Dimension(2, 2));
+        jScrollPane2.setViewportView(tableTransaksi);
+
         javax.swing.GroupLayout transaksiPnlLayout = new javax.swing.GroupLayout(transaksiPnl);
         transaksiPnl.setLayout(transaksiPnlLayout);
         transaksiPnlLayout.setHorizontalGroup(
@@ -324,11 +350,11 @@ public class Dasboard extends javax.swing.JFrame {
             .addGroup(transaksiPnlLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(transaksiPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1093, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(judulTransaksiPnl, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1126, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addTransaksiBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         transaksiPnlLayout.setVerticalGroup(
             transaksiPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -337,9 +363,9 @@ public class Dasboard extends javax.swing.JFrame {
                 .addComponent(judulTransaksiPnl, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 231, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 218, Short.MAX_VALUE)
                 .addComponent(addTransaksiBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(204, 204, 204))
         );
@@ -464,7 +490,8 @@ public class Dasboard extends javax.swing.JFrame {
     }//GEN-LAST:event_profileBtnActionPerformed
 
     private void addTransaksiBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTransaksiBtnActionPerformed
-        // TODO add your handling code here:
+        CreateTransactions createTransactions = new CreateTransactions();
+        createTransactions.setVisible(true);
     }//GEN-LAST:event_addTransaksiBtnActionPerformed
 
     /**
@@ -508,7 +535,7 @@ public class Dasboard extends javax.swing.JFrame {
     private javax.swing.JPanel dashboardPnl;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel judulDashboardLbl;
     private javax.swing.JLabel judulKategoriPnl;
     private javax.swing.JLabel judulLabel;
