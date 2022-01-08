@@ -43,18 +43,10 @@
                       </Group>
                       <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="inputName" max="32767" attributes="0"/>
-                                  <Component id="inputUsername" max="32767" attributes="0"/>
-                                  <Component id="inputPassword" pref="150" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jButtonTambah" pref="85" max="32767" attributes="0"/>
-                                  <Component id="jButtonEdit" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jButtonHapus" alignment="0" max="32767" attributes="0"/>
-                              </Group>
+                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="inputName" max="32767" attributes="0"/>
+                              <Component id="inputUsername" max="32767" attributes="0"/>
+                              <Component id="inputPassword" pref="150" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
@@ -64,6 +56,13 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jRadioButtonUser" min="-2" max="-2" attributes="0"/>
                           </Group>
+                      </Group>
+                      <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jButtonTambah" pref="85" max="32767" attributes="0"/>
+                          <Component id="jButtonEdit" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jButtonHapus" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jButtonClear" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -98,15 +97,16 @@
                   <Component id="inputPassword" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonHapus" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jRadioButtonAdmin" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jRadioButtonUser" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonClear" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jTextFieldId" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="31" max="32767" attributes="0"/>
+              <EmptySpace pref="29" max="32767" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="374" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -175,6 +175,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Edit"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonEditActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonHapus">
       <Properties>
@@ -209,6 +212,14 @@
       </SubComponents>
     </Container>
     <Component class="javax.swing.JTextField" name="jTextFieldId">
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonClear">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Clear"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonClearActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

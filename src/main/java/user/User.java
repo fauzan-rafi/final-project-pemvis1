@@ -51,6 +51,7 @@ public class User extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableUser = new javax.swing.JTable();
         jTextFieldId = new javax.swing.JTextField();
+        jButtonClear = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -79,6 +80,11 @@ public class User extends javax.swing.JFrame {
         });
 
         jButtonEdit.setText("Edit");
+        jButtonEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditActionPerformed(evt);
+            }
+        });
 
         jButtonHapus.setText("Hapus");
         jButtonHapus.addActionListener(new java.awt.event.ActionListener() {
@@ -105,6 +111,13 @@ public class User extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTableUser);
 
+        jButtonClear.setText("Clear");
+        jButtonClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonClearActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -123,22 +136,22 @@ public class User extends javax.swing.JFrame {
                             .addComponent(jLabel5))
                         .addGap(45, 45, 45)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(inputName)
-                                    .addComponent(inputUsername)
-                                    .addComponent(inputPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
-                                .addGap(56, 56, 56)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButtonTambah, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
-                                    .addComponent(jButtonEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButtonHapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(inputName)
+                                .addComponent(inputUsername)
+                                .addComponent(inputPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jTextFieldId, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jRadioButtonAdmin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
-                                .addComponent(jRadioButtonUser))))
+                                .addComponent(jRadioButtonUser)))
+                        .addGap(56, 56, 56)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonTambah, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+                            .addComponent(jButtonEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonHapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -164,14 +177,15 @@ public class User extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(inputPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonHapus))
-                .addGap(13, 13, 13)
+                .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jRadioButtonAdmin)
-                    .addComponent(jRadioButtonUser))
+                    .addComponent(jRadioButtonUser)
+                    .addComponent(jButtonClear))
                 .addGap(18, 18, 18)
                 .addComponent(jTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -210,8 +224,13 @@ public class User extends javax.swing.JFrame {
 //        String password = jTableUser.getValueAt(baris,4).toString();
 //        inputUsername.setText(password);
 
-//        String jr = jTableUser.getValueAt(baris, 4).toString();
-//        buttonGroupRule.setSelected(jr, rootPaneCheckingEnabled);
+        String jr = jTableUser.getValueAt(baris, 4).toString();
+        String adm = "admin";
+        if(jr.equals(adm)){
+            jRadioButtonAdmin.setSelected(true);
+        }else{
+            jRadioButtonUser.setSelected(true);
+        }
     }//GEN-LAST:event_jTableUserMouseClicked
 
     private void jButtonHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHapusActionPerformed
@@ -228,6 +247,31 @@ public class User extends javax.swing.JFrame {
         kosongkan();
         load_table();
     }//GEN-LAST:event_jButtonHapusActionPerformed
+
+    private void jButtonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearActionPerformed
+        // TODO add your handling code here:
+        kosongkan();
+    }//GEN-LAST:event_jButtonClearActionPerformed
+
+    private void jButtonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditActionPerformed
+        // TODO add your handling code here:
+        String rule = null;
+        if(jRadioButtonAdmin.isSelected()) 
+                rule="admin";
+        else if(jRadioButtonUser.isSelected()) 
+                rule="user";
+        try {
+            String sql ="UPDATE users SET full_name = '"+inputName.getText()+"', username = '"+inputUsername.getText()+"', password = '"+inputPassword.getPassword()+"',rule= '"+rule+"' WHERE id = '"+jTextFieldId.getText()+"'";
+            java.sql.Connection conn=(Connection)config.configDB();
+            java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+            pst.execute();
+            JOptionPane.showMessageDialog(null, "data berhasil di edit");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Perubahan Data Gagal"+e.getMessage());
+        }
+        kosongkan();
+        load_table();
+    }//GEN-LAST:event_jButtonEditActionPerformed
 
     private void kosongkan(){
         inputName.setText(null);
@@ -302,6 +346,7 @@ public class User extends javax.swing.JFrame {
     private javax.swing.JTextField inputName;
     private javax.swing.JPasswordField inputPassword;
     private javax.swing.JTextField inputUsername;
+    private javax.swing.JButton jButtonClear;
     private javax.swing.JButton jButtonEdit;
     private javax.swing.JButton jButtonHapus;
     private javax.swing.JButton jButtonTambah;
