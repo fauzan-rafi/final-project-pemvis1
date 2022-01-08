@@ -159,7 +159,7 @@ public class Dasboard extends javax.swing.JFrame {
 
         dashboardBtn.setFont(new java.awt.Font("Roboto", 1, 18));
         dashboardBtn.setForeground(new java.awt.Color(255, 255, 255));
-        dashboardBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/homeIconBtn.png"))); // NOI18N
+        dashboardBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/homeIconBtn.png"))); // NOI18N
         dashboardBtn.setText("Dashboard");
         dashboardBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         dashboardBtn.setIconTextGap(50);
@@ -171,7 +171,7 @@ public class Dasboard extends javax.swing.JFrame {
 
         transaksiBtn.setFont(new java.awt.Font("Roboto", 1, 18));
         transaksiBtn.setForeground(new java.awt.Color(255, 255, 255));
-        transaksiBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/transaksiIconBtn.png"))); // NOI18N
+        transaksiBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/transaksiIconBtn.png"))); // NOI18N
         transaksiBtn.setText("Transaksi");
         transaksiBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         transaksiBtn.setIconTextGap(50);
@@ -183,7 +183,7 @@ public class Dasboard extends javax.swing.JFrame {
 
         kategoriBtn.setFont(new java.awt.Font("Roboto", 1, 18));
         kategoriBtn.setForeground(new java.awt.Color(255, 255, 255));
-        kategoriBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/kategoriIconBtn.png"))); // NOI18N
+        kategoriBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/kategoriIconBtn.png"))); // NOI18N
         kategoriBtn.setText("Kategori");
         kategoriBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         kategoriBtn.setIconTextGap(50);
@@ -195,7 +195,7 @@ public class Dasboard extends javax.swing.JFrame {
 
         laporanBtn.setFont(new java.awt.Font("Ubuntu", 1, 18));
         laporanBtn.setForeground(new java.awt.Color(255, 255, 255));
-        laporanBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/laporanIconBtn.png"))); // NOI18N
+        laporanBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/laporanIconBtn.png"))); // NOI18N
         laporanBtn.setText("Laporan");
         laporanBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         laporanBtn.setIconTextGap(50);
@@ -207,7 +207,7 @@ public class Dasboard extends javax.swing.JFrame {
 
         profileBtn.setFont(new java.awt.Font("Ubuntu", 1, 18));
         profileBtn.setForeground(new java.awt.Color(255, 255, 255));
-        profileBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/profileIconBtn.png"))); // NOI18N
+        profileBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/profileIconBtn.png"))); // NOI18N
         profileBtn.setText("Profile");
         profileBtn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         profileBtn.setIconTextGap(50);
@@ -260,7 +260,7 @@ public class Dasboard extends javax.swing.JFrame {
 
         judulDashboardLbl.setFont(new java.awt.Font("Roboto", 1, 18));
         judulDashboardLbl.setForeground(new java.awt.Color(255, 255, 255));
-        judulDashboardLbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/breadCrumbDashboard.png"))); // NOI18N
+        judulDashboardLbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/breadCrumbDashboard.png"))); // NOI18N
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Inter", 1, 36));
@@ -294,7 +294,7 @@ public class Dasboard extends javax.swing.JFrame {
         transaksiPnl.setBackground(new java.awt.Color(255, 255, 255));
 
         judulTransaksiPnl.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        judulTransaksiPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/breadCrumbTransaksi.png"))); // NOI18N
+        judulTransaksiPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/breadCrumbTransaksi.png"))); // NOI18N
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Inter", 1, 36));
@@ -365,7 +365,7 @@ public class Dasboard extends javax.swing.JFrame {
         kategoriPnl.setMaximumSize(new java.awt.Dimension(1161, 1024));
 
         judulKategoriPnl.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        judulKategoriPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/breadCrumbKategori.png"))); // NOI18N
+        judulKategoriPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/breadCrumbKategori.png"))); // NOI18N
 
         javax.swing.GroupLayout kategoriPnlLayout = new javax.swing.GroupLayout(kategoriPnl);
         kategoriPnl.setLayout(kategoriPnlLayout);
@@ -390,7 +390,7 @@ public class Dasboard extends javax.swing.JFrame {
         laporanPnl.setMaximumSize(new java.awt.Dimension(1161, 1024));
 
         judulLaporanPnl.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        judulLaporanPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/breadCrumbLaporan.png"))); // NOI18N
+        judulLaporanPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/breadCrumbLaporan.png"))); // NOI18N
 
         javax.swing.GroupLayout laporanPnlLayout = new javax.swing.GroupLayout(laporanPnl);
         laporanPnl.setLayout(laporanPnlLayout);
@@ -414,7 +414,7 @@ public class Dasboard extends javax.swing.JFrame {
         profilePnl.setBackground(new java.awt.Color(255, 255, 255));
 
         judulProfilePnl.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        judulProfilePnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/breadCrumbProfil.png"))); // NOI18N
+        judulProfilePnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/breadCrumbProfil.png"))); // NOI18N
 
         javax.swing.GroupLayout profilePnlLayout = new javax.swing.GroupLayout(profilePnl);
         profilePnl.setLayout(profilePnlLayout);

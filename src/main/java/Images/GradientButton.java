@@ -1,4 +1,4 @@
-package asset;
+package Images;
 
 import javax.swing.*;
 import java.awt.*;

@@ -120,7 +120,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/asset/homeIconBtn.png"/>
+              <Image iconType="3" name="/Images/homeIconBtn.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Dashboard"/>
             <Property name="horizontalAlignment" type="int" value="2"/>
@@ -139,7 +139,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/asset/transaksiIconBtn.png"/>
+              <Image iconType="3" name="/Images/transaksiIconBtn.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Transaksi"/>
             <Property name="horizontalAlignment" type="int" value="2"/>
@@ -158,7 +158,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/asset/kategoriIconBtn.png"/>
+              <Image iconType="3" name="/Images/kategoriIconBtn.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Kategori"/>
             <Property name="horizontalAlignment" type="int" value="2"/>
@@ -177,7 +177,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/asset/laporanIconBtn.png"/>
+              <Image iconType="3" name="/Images/laporanIconBtn.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Laporan"/>
             <Property name="horizontalAlignment" type="int" value="2"/>
@@ -196,7 +196,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/asset/profileIconBtn.png"/>
+              <Image iconType="3" name="/Images/profileIconBtn.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Profile"/>
             <Property name="horizontalAlignment" type="int" value="2"/>
@@ -273,7 +273,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/asset/breadCrumbDashboard.png"/>
+                  <Image iconType="3" name="/Images/breadCrumbDashboard.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -342,7 +342,7 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="2"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/asset/breadCrumbTransaksi.png"/>
+                  <Image iconType="3" name="/Images/breadCrumbTransaksi.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -499,7 +499,7 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="2"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/asset/breadCrumbKategori.png"/>
+                  <Image iconType="3" name="/Images/breadCrumbKategori.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -545,7 +545,7 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="2"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/asset/breadCrumbLaporan.png"/>
+                  <Image iconType="3" name="/Images/breadCrumbLaporan.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -588,7 +588,7 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="2"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/asset/breadCrumbProfil.png"/>
+                  <Image iconType="3" name="/Images/breadCrumbProfil.png"/>
                 </Property>
               </Properties>
             </Component>

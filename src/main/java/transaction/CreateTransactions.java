@@ -290,7 +290,7 @@ public class CreateTransactions extends javax.swing.JFrame {
         editBtn.setFont(new java.awt.Font("Inter", 1, 15)
         );
         editBtn.setForeground(new java.awt.Color(255, 255, 255));
-        editBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Vector-1.png"))); // NOI18N
+        editBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Vector-1.png"))); // NOI18N
         editBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(110, 107, 250), 0, true));
         editBtn.setPreferredSize(new java.awt.Dimension(203, 61));
         editBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -304,7 +304,7 @@ public class CreateTransactions extends javax.swing.JFrame {
         deleteBtn.setFont(new java.awt.Font("Inter", 1, 15)
         );
         deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
-        deleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Vector.png"))); // NOI18N
+        deleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Vector.png"))); // NOI18N
         deleteBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(110, 107, 250), 0, true));
         deleteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
