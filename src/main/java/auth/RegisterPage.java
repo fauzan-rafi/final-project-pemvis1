@@ -20,6 +20,7 @@ public class RegisterPage extends javax.swing.JFrame {
     Config config;
     public RegisterPage() {
         initComponents();
+        kosongkan();
     }
 
     /**
@@ -162,8 +163,15 @@ public class RegisterPage extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
+        kosongkan();
     }//GEN-LAST:event_jButtonDaftarActionPerformed
 
+    private void kosongkan(){
+        jTextFieldName.setText(null);
+        jTextFieldBuatUsername.setText(null);
+        jPasswordFieldBuatPassword.setText(null);
+    }
+    
     /**
      * @param args the command line arguments
      */
