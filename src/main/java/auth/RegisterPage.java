@@ -4,6 +4,10 @@
  */
 package auth;
 
+import java.sql.Connection;
+import javax.swing.JOptionPane;
+import model.Config;
+
 /**
  *
  * @author gummlas
@@ -13,6 +17,7 @@ public class RegisterPage extends javax.swing.JFrame {
     /**
      * Creates new form LoginPage
      */
+    Config config;
     public RegisterPage() {
         initComponents();
     }
@@ -34,9 +39,9 @@ public class RegisterPage extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jButtonDaftar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jPasswordFieldBuatPassword = new javax.swing.JPasswordField();
-        jPasswordFieldBuatKonfirmasi = new javax.swing.JPasswordField();
+        jLabel6 = new javax.swing.JLabel();
+        jTextFieldName = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,17 +63,20 @@ public class RegisterPage extends javax.swing.JFrame {
 
         jButtonDaftar.setBackground(new java.awt.Color(110, 107, 250));
         jButtonDaftar.setText("Daftar");
+        jButtonDaftar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDaftarActionPerformed(evt);
+            }
+        });
 
         jLabel4.setForeground(new java.awt.Color(1, 1, 1));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Sudah punya akun? Masuk");
 
-        jLabel5.setForeground(new java.awt.Color(1, 1, 1));
-        jLabel5.setText("Konfirmasi Password");
-
         jPasswordFieldBuatPassword.setBackground(new java.awt.Color(254, 254, 254));
 
-        jPasswordFieldBuatKonfirmasi.setBackground(new java.awt.Color(254, 254, 254));
+        jLabel6.setForeground(new java.awt.Color(1, 1, 1));
+        jLabel6.setText("Name");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -77,7 +85,7 @@ public class RegisterPage extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(66, 66, 66)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
                     .addComponent(jLabel3)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1)
@@ -85,7 +93,7 @@ public class RegisterPage extends javax.swing.JFrame {
                     .addComponent(jButtonDaftar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
                     .addComponent(jPasswordFieldBuatPassword)
-                    .addComponent(jPasswordFieldBuatKonfirmasi))
+                    .addComponent(jTextFieldName))
                 .addContainerGap(72, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -93,6 +101,10 @@ public class RegisterPage extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jLabel1)
+                .addGap(15, 15, 15)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -101,11 +113,7 @@ public class RegisterPage extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPasswordFieldBuatPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordFieldBuatKonfirmasi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
+                .addGap(26, 26, 26)
                 .addComponent(jButtonDaftar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
@@ -142,6 +150,19 @@ public class RegisterPage extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonDaftarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDaftarActionPerformed
+        // TODO add your handling code here:
+        try {
+            String sql = "INSERT INTO users(full_name , username, password, rule) VALUES ('"+jTextFieldName.getText()+"', '"+jTextFieldBuatUsername.getText()+"', '"+jPasswordFieldBuatPassword.getPassword()+"', 'user')";
+            java.sql.Connection conn=(Connection)config.configDB();
+            java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+            pst.execute();
+            JOptionPane.showMessageDialog(null, "Daftar akun berhasil");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_jButtonDaftarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -185,11 +206,11 @@ public class RegisterPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField jPasswordFieldBuatKonfirmasi;
     private javax.swing.JPasswordField jPasswordFieldBuatPassword;
     private javax.swing.JTextField jTextFieldBuatUsername;
+    private javax.swing.JTextField jTextFieldName;
     // End of variables declaration//GEN-END:variables
 }
