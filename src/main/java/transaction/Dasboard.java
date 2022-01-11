@@ -260,7 +260,7 @@ public class Dasboard extends javax.swing.JFrame {
 
         judulDashboardLbl.setFont(new java.awt.Font("Roboto", 1, 18));
         judulDashboardLbl.setForeground(new java.awt.Color(255, 255, 255));
-        judulDashboardLbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/breadCrumbDashboard.png"))); // NOI18N
+        judulDashboardLbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Dashboard.png"))); // NOI18N
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Inter", 1, 36));
@@ -294,7 +294,7 @@ public class Dasboard extends javax.swing.JFrame {
         transaksiPnl.setBackground(new java.awt.Color(255, 255, 255));
 
         judulTransaksiPnl.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        judulTransaksiPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/breadCrumbTransaksi.png"))); // NOI18N
+        judulTransaksiPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Transaksi.png"))); // NOI18N
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Inter", 1, 36));
@@ -365,7 +365,7 @@ public class Dasboard extends javax.swing.JFrame {
         kategoriPnl.setMaximumSize(new java.awt.Dimension(1161, 1024));
 
         judulKategoriPnl.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        judulKategoriPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/breadCrumbKategori.png"))); // NOI18N
+        judulKategoriPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Kategori.png"))); // NOI18N
 
         javax.swing.GroupLayout kategoriPnlLayout = new javax.swing.GroupLayout(kategoriPnl);
         kategoriPnl.setLayout(kategoriPnlLayout);
@@ -390,7 +390,7 @@ public class Dasboard extends javax.swing.JFrame {
         laporanPnl.setMaximumSize(new java.awt.Dimension(1161, 1024));
 
         judulLaporanPnl.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        judulLaporanPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/breadCrumbLaporan.png"))); // NOI18N
+        judulLaporanPnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Laporan.png"))); // NOI18N
 
         javax.swing.GroupLayout laporanPnlLayout = new javax.swing.GroupLayout(laporanPnl);
         laporanPnl.setLayout(laporanPnlLayout);
@@ -414,7 +414,7 @@ public class Dasboard extends javax.swing.JFrame {
         profilePnl.setBackground(new java.awt.Color(255, 255, 255));
 
         judulProfilePnl.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        judulProfilePnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/breadCrumbProfil.png"))); // NOI18N
+        judulProfilePnl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Profil.png"))); // NOI18N
 
         javax.swing.GroupLayout profilePnlLayout = new javax.swing.GroupLayout(profilePnl);
         profilePnl.setLayout(profilePnlLayout);

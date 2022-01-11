@@ -273,7 +273,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Images/breadCrumbDashboard.png"/>
+                  <Image iconType="3" name="/Images/Dashboard.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -342,7 +342,7 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="2"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Images/breadCrumbTransaksi.png"/>
+                  <Image iconType="3" name="/Images/Transaksi.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -499,7 +499,7 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="2"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Images/breadCrumbKategori.png"/>
+                  <Image iconType="3" name="/Images/Kategori.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -545,7 +545,7 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="2"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Images/breadCrumbLaporan.png"/>
+                  <Image iconType="3" name="/Images/Laporan.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -588,7 +588,7 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="2"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Images/breadCrumbProfil.png"/>
+                  <Image iconType="3" name="/Images/Profil.png"/>
                 </Property>
               </Properties>
             </Component>
