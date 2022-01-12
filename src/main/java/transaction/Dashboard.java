@@ -16,20 +16,22 @@ import model.Config;
  *
  * @author fauzan
  */
-public class Dasboard extends javax.swing.JFrame {
+public class Dashboard extends javax.swing.JFrame {
 
     Config config = new Config();
     DefaultTableModel model;
     JButton edit,delete;
     DataTransactions dataTransactions;
     CreateTransactions createTransactions;
+    int idUser;
     
-    public Dasboard() {
+    public Dashboard(int idUser) {
         initComponents();
         setLayoutMain();
         setBtn();
         setViewBtn();
         readData();
+        this.idUser = idUser;
         
     }
     
@@ -515,20 +517,21 @@ public class Dasboard extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Dasboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Dasboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Dasboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Dasboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Dasboard().setVisible(true);
+                new Dashboard(0).setVisible(true);
             }
         });
     }

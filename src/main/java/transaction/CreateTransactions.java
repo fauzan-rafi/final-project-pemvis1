@@ -29,7 +29,7 @@ public class CreateTransactions extends javax.swing.JFrame {
     DefaultComboBoxModel model;
     DataTransactions data;
     int idData;
-    Dasboard dashboard;
+    Dashboard dashboard;
     
     
     public CreateTransactions(boolean edit, DataTransactions data) {
