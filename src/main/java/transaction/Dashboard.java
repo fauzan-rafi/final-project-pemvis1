@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package transaction;
 
 import javax.swing.*;
@@ -12,10 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import model.Config;
 
-/**
- *
- * @author fauzan
- */
+
 public class Dashboard extends javax.swing.JFrame {
 
     Config config = new Config();
@@ -30,9 +23,8 @@ public class Dashboard extends javax.swing.JFrame {
         setLayoutMain();
         setBtn();
         setViewBtn();
-        readData();
         this.idUser = idUser;
-        
+        tableTransaksi.setVisible(false);
     }
     
     private void setLayoutMain(){
@@ -84,6 +76,7 @@ public class Dashboard extends javax.swing.JFrame {
     }
 //    Get data and show to table
     private void readData(){
+       tableTransaksi.setVisible(true);
        model = new DefaultTableModel();
        model.addColumn("#");
        model.addColumn("No. Transaksi");
@@ -111,10 +104,6 @@ public class Dashboard extends javax.swing.JFrame {
     }
     
     
-    private void createData(int id){
-        
-    }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -463,6 +452,7 @@ public class Dashboard extends javax.swing.JFrame {
     private void transaksiBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transaksiBtnActionPerformed
         panelPilihan = 1;
         setViewBtn();
+        readData();
     }//GEN-LAST:event_transaksiBtnActionPerformed
 
     private void kategoriBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kategoriBtnActionPerformed
@@ -481,7 +471,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_profileBtnActionPerformed
 
     private void addTransaksiBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTransaksiBtnActionPerformed
-        createTransactions = new CreateTransactions(false,null);
+        createTransactions = new CreateTransactions(false,null, idUser);
         createTransactions.setVisible(true);
     }//GEN-LAST:event_addTransaksiBtnActionPerformed
 
@@ -496,7 +486,7 @@ public class Dashboard extends javax.swing.JFrame {
         
         dataTransactions = new DataTransactions(id, date, type, category, value, description);
         
-        createTransactions = new CreateTransactions(true, dataTransactions);
+        createTransactions = new CreateTransactions(true, dataTransactions, idUser);
         createTransactions.setVisible(true);
     }//GEN-LAST:event_tableTransaksiMouseClicked
 

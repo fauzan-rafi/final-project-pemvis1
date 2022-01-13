@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.*;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -22,24 +23,28 @@ import model.Config;
  *
  * @author fauzan
  */
-public class CreateTransactions extends javax.swing.JFrame {
+public class CreateTransactions extends JFrame {
 
     
     Config config;
     DefaultComboBoxModel model;
     DataTransactions data;
     int idData;
+    int idUser;
     Dashboard dashboard;
+    ArrayList<Category> categories = new ArrayList<Category>();
+    Category category;
     
     
-    public CreateTransactions(boolean edit, DataTransactions data) {
+    public CreateTransactions(boolean edit, DataTransactions data,int idUser) {
         initComponents();
         setFrame();
         setJudulLabel();
         fillDataKategori();
         btnClose.setVisible(false);
         setButton(edit);
-//        this.dashboard = dashboard;
+        
+//      set data id
         if(data != null){
             this.data = data;
             this.idData =  data.id;
@@ -51,9 +56,8 @@ public class CreateTransactions extends javax.swing.JFrame {
             }
         }
         
-        
-        
-        
+//      set id user
+        this.idUser = idUser;
     }
     
     private void setButton(boolean edit){
@@ -92,28 +96,52 @@ public class CreateTransactions extends javax.swing.JFrame {
         return attributes;
     }
     
+    
+    // function category
+    
     private void fillDataKategori(){
         model = new DefaultComboBoxModel();
+        setCategory();
+        for(int i = 0; i < categories.size(); i++){
+            model.addElement(categories.get(i).getName());
+        }
+        kategoriFld.setModel(model);
+    }
+    
+    
+    private void setCategory(){
         try{
             String sql = "SELECT id, title FROM categories ORDER BY id ASC";
             java.sql.Connection conn= (Connection)config.configDB();
             java.sql.Statement stm=conn.createStatement();
             java.sql.ResultSet res = stm.executeQuery(sql);
             while(res.next()){
-                model.addElement(res.getString("title"));
-                
+                category = new Category(Integer.parseInt(res.getString("id")), res.getString("title"));
+                categories.add(category);
             }
-            kategoriFld.setModel(model);
        }catch(Exception e){
            JOptionPane.showMessageDialog(this, "Error : "+e);
        }
     }
     
-    // Add data to transaction table
-    private boolean insertData(int jenis, int kategori, int jumlah, String deskripsi, String tanggal){
+    private int getCategory(String name){
+        int category = 0;
+        
+        for(int i = 0; i < categories.size(); i++){
+            if(categories.get(i).getName().equals(name)){
+                category = categories.get(i).getId();
+                break;
+            }
+        }
+        return category;
+    }
+    
+//  --------------------------------------- CRUD table transaction --------------------------------------
+    
+    private boolean insertData(int userId, String jenis, int kategori, int jumlah, String deskripsi, String tanggal){
         boolean result = true;
         try{
-            String sql = "INSERT INTO transactions (categories_id, type, date, value, description) VALUES ('"+kategori+"','"+jenis+"','"+tanggal+"','"+jumlah+"','"+deskripsi+"')" ;
+            String sql = "INSERT INTO transactions (user_id, categories_id, type, date, value, description) VALUES ('"+userId+"','"+kategori+"','"+jenis+"','"+tanggal+"','"+jumlah+"','"+deskripsi+"')" ;
             java.sql.Connection conn= (Connection)config.configDB();
             java.sql.PreparedStatement pst= conn.prepareStatement(sql);
             pst.execute();
@@ -143,7 +171,24 @@ public class CreateTransactions extends javax.swing.JFrame {
         return result;
     }
     
+    private boolean updateData(int id, String type, int kategori, int jumlah, String deskripsi, String tanggal){
+        boolean result = false;
+        
+        try{
+            String sql = "UPDATE transactions SET categories_id ='"+kategori+"', type ='"+type+"', date ='"+tanggal+"', value ='"+jumlah+"', description='"+deskripsi+"' WHERE code = ?";
+            java.sql.Connection conn= (Connection)config.configDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setInt(1,id);
+            pst.executeUpdate();
+            result = true;
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,e.getMessage());
+        }
+        
+        return result;
+    }
     
+//    ----------------------------------------------------------------------------------------------------------------
     
     private void fillFormData()throws Exception {
         Date date = new SimpleDateFormat("yyyy-MM-dd").parse(data.tanggal);  
@@ -176,7 +221,7 @@ public class CreateTransactions extends javax.swing.JFrame {
         editBtn = new javax.swing.JButton();
         deleteBtn = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Add transaction");
         setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(553, 724));
@@ -277,7 +322,7 @@ public class CreateTransactions extends javax.swing.JFrame {
         jPanel2.setLayout(new java.awt.CardLayout());
 
         addBtn.setBackground(new java.awt.Color(110, 107, 250));
-        addBtn.setFont(new java.awt.Font("Inter", 1, 15)
+        addBtn.setFont(new java.awt.Font("Inter", 1, 16)
         );
         addBtn.setForeground(new java.awt.Color(255, 255, 255));
         addBtn.setText("Tambah");
@@ -395,22 +440,40 @@ public class CreateTransactions extends javax.swing.JFrame {
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         sdf.applyPattern(dateFld.getDateFormatString());
+        
         tanggal = sdf.format(dateFld.getDate());
-        int jenis = jenisFld.getSelectedIndex();
-        int kategori = kategoriFld.getSelectedIndex() + 1;
+        
+        String jenis = String.valueOf(jenisFld.getSelectedItem());
+        
+        int kategori = getCategory(String.valueOf(kategoriFld.getSelectedItem()));
+        
         int jumlah = Integer.parseInt(jumlahFld.getText());
+        
         String deskripsi = deskripsiFld.getText();
 
-        if(insertData(jenis, kategori, jumlah, deskripsi, tanggal) == true){
+        if(insertData(idUser, jenis, kategori, jumlah, deskripsi, tanggal) == true){
             JOptionPane.showMessageDialog(null, "Tambah transaksi berhasil" );
             this.dispose();
-            dashboard.getReadData();
         }
-
     }//GEN-LAST:event_addBtnActionPerformed
 
     private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
-        // TODO add your handling code here:
+        sdf.applyPattern(dateFld.getDateFormatString());
+        
+        tanggal = sdf.format(dateFld.getDate());
+        
+        String jenis = String.valueOf(jenisFld.getSelectedItem());
+        
+        int kategori = getCategory(String.valueOf(kategoriFld.getSelectedItem()));
+        
+        int jumlah = Integer.parseInt(jumlahFld.getText());
+        
+        String deskripsi = deskripsiFld.getText();
+        
+        if(updateData(idData, jenis, kategori, jumlah, deskripsi, tanggal) == true){
+            JOptionPane.showMessageDialog(null, "Tambah transaksi berhasil" );
+            this.dispose();
+        }
     }//GEN-LAST:event_editBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
@@ -419,11 +482,9 @@ public class CreateTransactions extends javax.swing.JFrame {
         if (opsi == JOptionPane.YES_OPTION){
             deleteData(this.idData);
             JOptionPane.showMessageDialog(null, "Data Berhasil di Hapus!!");
-//            dashboard.getReadData();
             this.dispose();
         }else{
             JOptionPane.showMessageDialog(null, "Data tidak di Hapus!!");
-//            dashboard.getReadData();
             this.dispose();
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
@@ -459,7 +520,7 @@ public class CreateTransactions extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CreateTransactions(false,null).setVisible(true);
+                new CreateTransactions(false,null,0).setVisible(true);
             }
         });
     }
