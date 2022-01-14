@@ -34,6 +34,8 @@ public class Dashboard extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setTitle("SakuKu");
         navbarPanel.setSize(279, 1024);
+        tableTransaksi.setShowHorizontalLines(true);
+        tableTransaksi.setGridColor(new Color(0,0,0,1));
     }
     
     private void setBtn(){
@@ -69,7 +71,8 @@ public class Dashboard extends javax.swing.JFrame {
         }
     }
     
-//    Function CRUD
+//    ------------- Function CRUD -----------------
+    
 //    Caller readData
     public void getReadData(){
         this.readData();
@@ -120,6 +123,7 @@ public class Dashboard extends javax.swing.JFrame {
         dashboardPnl = new javax.swing.JPanel();
         judulDashboardLbl = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         transaksiPnl = new javax.swing.JPanel();
         judulTransaksiPnl = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -259,6 +263,22 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel1.setText("Insight Untukmu");
 
+        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 0, true));
+        jPanel1.setMaximumSize(new java.awt.Dimension(673, 409));
+        jPanel1.setMinimumSize(new java.awt.Dimension(673, 409));
+        jPanel1.setPreferredSize(new java.awt.Dimension(673, 409));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 673, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 409, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout dashboardPnlLayout = new javax.swing.GroupLayout(dashboardPnl);
         dashboardPnl.setLayout(dashboardPnlLayout);
         dashboardPnlLayout.setHorizontalGroup(
@@ -267,8 +287,9 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(dashboardPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(judulDashboardLbl))
-                .addContainerGap(723, Short.MAX_VALUE))
+                    .addComponent(judulDashboardLbl)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(476, Short.MAX_VALUE))
         );
         dashboardPnlLayout.setVerticalGroup(
             dashboardPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -277,7 +298,9 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(judulDashboardLbl)
                 .addGap(43, 43, 43)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(805, Short.MAX_VALUE))
+                .addGap(52, 52, 52)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(344, Short.MAX_VALUE))
         );
 
         mainPanel.add(dashboardPnl, "card2");
@@ -316,6 +339,9 @@ public class Dashboard extends javax.swing.JFrame {
             }
         ));
         tableTransaksi.setIntercellSpacing(new java.awt.Dimension(2, 2));
+        tableTransaksi.setRowHeight(40);
+        tableTransaksi.setShowGrid(true);
+        tableTransaksi.setShowVerticalLines(false);
         tableTransaksi.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableTransaksiMouseClicked(evt);
@@ -330,11 +356,14 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(transaksiPnlLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(transaksiPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1093, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(judulTransaksiPnl, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addTransaksiBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(56, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2)
+                    .addGroup(transaksiPnlLayout.createSequentialGroup()
+                        .addGroup(transaksiPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(judulTransaksiPnl, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(addTransaksiBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 793, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         transaksiPnlLayout.setVerticalGroup(
             transaksiPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -532,6 +561,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel dashboardPnl;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel judulDashboardLbl;
     private javax.swing.JLabel judulKategoriPnl;
