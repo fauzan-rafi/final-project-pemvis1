@@ -1,5 +1,6 @@
 package transaction;
 
+import auth.AuthPage;
 import com.raven.chart.ModelChart;
 import javax.swing.*;
 import java.awt.Color;
@@ -12,6 +13,7 @@ import javax.swing.table.TableCellRenderer;
 import model.Config;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,18 +30,31 @@ public class Dashboard extends javax.swing.JFrame {
     
     public Dashboard(int idUser) {
         initComponents();
-        setLayoutMain();
-        setBtn();
-        setViewBtn();
+        
+        
+        // -- Set global variable
         this.idUser = idUser;
+        
+        
+        
+        // -- Set general view
+        initGeneralView();
+        
         tableTransaksi.setVisible(false);
         tableKategori.setVisible(false);
-        loadDataUser();
-        readKategori();
+        
+        
+        // -- Menu Dashboard
         loadChart();
-        loadChartReportPengeluaran();
+        
+        // -- Menu Report
+        hiddenChart();
+        
+       // -- Menu Profile
+       loadDataUser();
     }
     
+//    -----------------------set Layout in general------------------------------------------------------
     private void setLayoutMain(){
         setSize(1440,1024);
         setResizable(false);
@@ -47,11 +62,8 @@ public class Dashboard extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setTitle("SakuKu");
         navbarPanel.setSize(279, 1024);
-        tableTransaksi.setShowHorizontalLines(true);
-        tableTransaksi.setGridColor(new Color(0,0,0,1));
         
-        tableKategori.setShowHorizontalLines(true);
-        tableKategori.setGridColor(new Color(0,0,0,1));
+        
     }
     
     private void setBtn(){
@@ -87,15 +99,22 @@ public class Dashboard extends javax.swing.JFrame {
         }
     }
     
+    // SETTER & GETTER GENERAL VIEW
+    private void initGeneralView(){
+        setLayoutMain();
+        setBtn();
+        setViewBtn();
+    }
+    
+    
+//    --------------------------------------------------------------------------------------------------------------------
+    
+    
+    
 //    ------------- Function CRUD -----------------
     
-//    Caller readData
-    public void getReadData(){
-        this.readData();
-        
-    }
 //    Get data and show to table
-    private void readData(){
+    private void readDataTransaction(){
        tableTransaksi.setVisible(true);
        model = new DefaultTableModel();
        model.addColumn("#");
@@ -124,11 +143,12 @@ public class Dashboard extends javax.swing.JFrame {
     }
     
     
-    private void readKategori(){
+    private void readDataKategori(){
        tableKategori.setVisible(true);
        model2 = new DefaultTableModel();
        
        model2.addColumn("#");
+       model2.addColumn("ID");
        model2.addColumn("Judul");
        model2.addColumn("Jenis");
        model2.addColumn("Opsi");
@@ -141,7 +161,7 @@ public class Dashboard extends javax.swing.JFrame {
             java.sql.Statement stm = conn.createStatement();
             java.sql.ResultSet res = stm.executeQuery(sql);
             while(res.next()){
-                model2.addRow(new Object[]{no++,res.getString("title"), res.getString("type"), "Edit / Delete" });
+                model2.addRow(new Object[]{no++,res.getString("id"),res.getString("title"), res.getString("type"), "Edit / Delete" });
             }
             
             tableKategori.setModel(model2);
@@ -159,20 +179,53 @@ public class Dashboard extends javax.swing.JFrame {
             java.sql.Statement stm=conn.createStatement();
             java.sql.ResultSet res=stm.executeQuery(sql);
             while(res.next()){
+                nProfileFld.setText(res.getString("full_name"));
                 uProfileFld.setText(res.getString("username"));
                 pProfileFld.setText(res.getString("password"));
-                rProfileFLd.setText(res.getString("rule"));
+                usernameLblProfile.setText(res.getString("username"));
+                lblRoleProfile.setText(res.getString("rule"));
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
     
-    public void updateDataUser(String username, String password){
+    public boolean updateDataUser(String fullname, String username, String password,int id){
+        boolean result = false;
         
+        try {
+            String sql ="UPDATE users SET full_name = '"+fullname+"', username = '"+username+"', password = '"+password+"' WHERE id = '"+id+"'";
+            java.sql.Connection conn=(Connection)Config.configDB();
+            java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+            pst.execute();
+            result = true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Perubahan Data Gagal"+e.getMessage());
+        }
+        
+        return result;
     }
     
+    public boolean deleteDataUser(int id){
+        boolean result = false;
+        try {
+            String sql ="delete from users where id='"+id+"'";
+            java.sql.Connection conn=(Connection)Config.configDB();
+            java.sql.PreparedStatement pst=conn.prepareStatement(sql);
+            pst.execute();
+            result = true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        
+        return result;
+    }
     
+//    --------------------------------------------------------------------------------------------------------------
+    
+    
+    
+//    --------------- DASHBOARD MENU -------------------------------------------------- ----
     
     private void loadChart() {
         chart.addLegend("Income", new Color(12, 84, 175), new Color(0, 108, 247));
@@ -189,22 +242,21 @@ public class Dashboard extends javax.swing.JFrame {
     }
     
     
+//    --------------------------------------------------------------------------------------
     
     
-    
-    // --------------------------------- Report Menu
+    // --------------------------------- Report Menu --------------------------------------
     public List<ModelChart> getDataPengeluaran() throws SQLException {
         List<ModelChart> list = new ArrayList<>();
-        String sql = "SELECT DATE_FORMAT(date,'%M') as M , sum(value) FROM `transactions` WHERE type='outcome' GROUP BY MONTH(date)";
+        String sql = "SELECT MONTH(date) as M , sum(value) FROM `transactions` WHERE type='outcome' GROUP BY MONTH(date)";
         java.sql.Connection conn=(Connection)Config.configDB();
         java.sql.Statement stm=conn.createStatement();
         ResultSet r = stm.executeQuery(sql);
         while (r.next()) {
-            String month = r.getString(1);
+            int m = Integer.parseInt(r.getString(1));
+            Month month = Month.of(m);
             int total = Integer.parseInt(r.getString(2));
-//            double cost = r.getDouble(3);
-//            double profit = r.getDouble(4);
-            list.add(new ModelChart(month, new double[]{total}));
+            list.add(new ModelChart(String.valueOf(month), new double[]{total}));
         }
         r.close();
         stm.close();
@@ -213,8 +265,7 @@ public class Dashboard extends javax.swing.JFrame {
     
     public void loadChartReportPengeluaran(){
         chartReportPengeluaran.addLegend("Outcome", new Color(12, 84, 175), new Color(0, 108, 247));
-//        chartReportPengeluaran.addLegend("Cost", new Color(186, 37, 37), new Color(241, 100, 120));
-//        chartReportPengeluaran.addLegend("Profit", new Color(5, 125, 0), new Color(95, 209, 69));
+        
         try {
             List<ModelChart> datas = getDataPengeluaran();
             for (int i = datas.size() - 1; i >= 0; i--) {
@@ -225,6 +276,54 @@ public class Dashboard extends javax.swing.JFrame {
             System.err.println(e);
         }
     }
+    
+    public List<ModelChart> getDataPemasukan() throws SQLException {
+        List<ModelChart> list = new ArrayList<>();
+        String sql = "SELECT MONTH(date) as M , sum(value) FROM `transactions` WHERE type='income' GROUP BY MONTH(date)";
+        java.sql.Connection conn=(Connection)Config.configDB();
+        java.sql.Statement stm=conn.createStatement();
+        ResultSet r = stm.executeQuery(sql);
+        while (r.next()) {
+            int m = Integer.parseInt(r.getString(1));
+            Month month = Month.of(m);
+            int total = Integer.parseInt(r.getString(2));
+            list.add(new ModelChart(String.valueOf(month), new double[]{total}));
+        }
+        r.close();
+        stm.close();
+        return list;
+    }
+    
+    public void loadChartReportPemasukan(){
+        chartReportPemasukan.addLegend("Income", new Color(186, 37, 37), new Color(241, 100, 120));
+
+        try {
+            List<ModelChart> datas = getDataPemasukan();
+            for (int i = datas.size() - 1; i >= 0; i--) {
+                chartReportPemasukan.addData(datas.get(i));
+            }
+            chartReportPemasukan.start();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }
+    
+    
+    // SETTER & GETTER REPORT MENU
+    private void hiddenChart(){
+        loadChartReportPengeluaran();
+        loadChartReportPemasukan();
+        
+        panelPemasukan.setVisible(false);
+        panelPengeluaran.setVisible(false);
+    }
+    
+    private void showChart(){
+        panelPemasukan.setVisible(true);
+        panelPengeluaran.setVisible(true);
+    }
+    
+    
     
     // --------------------------------------------------------------------------------------------------------------------------------------------
     
@@ -270,13 +369,17 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        rProfileFLd = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         pProfileFld = new javax.swing.JPasswordField();
-        jLabel6 = new javax.swing.JLabel();
         uProfileFld = new javax.swing.JTextField();
+        nProfileFld = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
         profileEditBtn = new javax.swing.JButton();
         logoutBtn = new javax.swing.JButton();
+        roundPanel3 = new component.RoundPanel();
+        usernameLblProfile = new javax.swing.JLabel();
+        lblRoleProfile = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sakuku");
@@ -593,9 +696,9 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(judulKategoriPnl, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41)
                 .addComponent(labelKategori, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGap(41, 41, 41)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
                 .addComponent(addKategoriBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(106, 106, 106))
         );
@@ -612,6 +715,8 @@ public class Dashboard extends javax.swing.JFrame {
         labelKategori1.setFont(new java.awt.Font("Inter", 1, 36));
         labelKategori1.setForeground(new java.awt.Color(45, 55, 72));
         labelKategori1.setText("Report");
+
+        panelPemasukan.setBackground(new java.awt.Color(60, 60, 60));
 
         javax.swing.GroupLayout panelPemasukanLayout = new javax.swing.GroupLayout(panelPemasukan);
         panelPemasukan.setLayout(panelPemasukanLayout);
@@ -630,13 +735,15 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        panelPengeluaran.setBackground(new java.awt.Color(60, 60, 60));
+
         javax.swing.GroupLayout panelPengeluaranLayout = new javax.swing.GroupLayout(panelPengeluaran);
         panelPengeluaran.setLayout(panelPengeluaranLayout);
         panelPengeluaranLayout.setHorizontalGroup(
             panelPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelPengeluaranLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(chartReportPemasukan, javax.swing.GroupLayout.DEFAULT_SIZE, 1103, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPengeluaranLayout.createSequentialGroup()
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addComponent(chartReportPemasukan, javax.swing.GroupLayout.PREFERRED_SIZE, 1087, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         panelPengeluaranLayout.setVerticalGroup(
@@ -652,16 +759,16 @@ public class Dashboard extends javax.swing.JFrame {
         laporanPnlLayout.setHorizontalGroup(
             laporanPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(laporanPnlLayout.createSequentialGroup()
-                .addGroup(laporanPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(panelPengeluaran, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(laporanPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(laporanPnlLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(laporanPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(judulLaporanPnl, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(labelKategori1, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(laporanPnlLayout.createSequentialGroup()
-                            .addGap(25, 25, 25)
+                .addGroup(laporanPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(laporanPnlLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(laporanPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(judulLaporanPnl, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelKategori1, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(laporanPnlLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(laporanPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(panelPengeluaran, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(panelPemasukan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
@@ -701,18 +808,12 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(544, 570));
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel4.setFont(new java.awt.Font("Inter",1,22));
+        jLabel4.setFont(new java.awt.Font("Inter",0,22));
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Username");
 
-        rProfileFLd.setEditable(false);
-        rProfileFLd.setBackground(new java.awt.Color(248, 249, 250));
-        rProfileFLd.setFont(new java.awt.Font("Roboto",0,16));
-        rProfileFLd.setForeground(new java.awt.Color(0, 0, 0));
-        rProfileFLd.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 0, true));
-
         jLabel5.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel5.setFont(new java.awt.Font("Inter",1,22));
+        jLabel5.setFont(new java.awt.Font("Inter",0,22));
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Password");
 
@@ -721,47 +822,54 @@ public class Dashboard extends javax.swing.JFrame {
         pProfileFld.setForeground(new java.awt.Color(0, 0, 0));
         pProfileFld.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 0, true));
 
-        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel6.setFont(new java.awt.Font("Inter",1,22));
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setText("Role");
-
         uProfileFld.setBackground(new java.awt.Color(248, 249, 250));
         uProfileFld.setFont(new java.awt.Font("Roboto",0,16));
         uProfileFld.setForeground(new java.awt.Color(0, 0, 0));
         uProfileFld.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 0, true));
+
+        nProfileFld.setBackground(new java.awt.Color(248, 249, 250));
+        nProfileFld.setFont(new java.awt.Font("Roboto",0,16));
+        nProfileFld.setForeground(new java.awt.Color(0, 0, 0));
+        nProfileFld.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 0, true));
+
+        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel6.setFont(new java.awt.Font("Inter",0,22));
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setText("Full Name");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pProfileFld)
-                    .addComponent(rProfileFLd)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
-                    .addComponent(uProfileFld))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addGap(29, 29, 29)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(nProfileFld, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(pProfileFld)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(uProfileFld, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(66, Short.MAX_VALUE)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(nProfileFld, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
                 .addComponent(uProfileFld, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(pProfileFld, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
-                .addComponent(rProfileFLd, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addGap(69, 69, 69))
         );
 
         profileEditBtn.setBackground(new java.awt.Color(110, 107, 250));
@@ -770,34 +878,93 @@ public class Dashboard extends javax.swing.JFrame {
         profileEditBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Vector-1.png"))); // NOI18N
         profileEditBtn.setText("Ubah");
         profileEditBtn.setIconTextGap(10);
+        profileEditBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profileEditBtnActionPerformed(evt);
+            }
+        });
 
         logoutBtn.setBackground(new java.awt.Color(232, 0, 84));
         logoutBtn.setFont(new java.awt.Font("Roboto",0,18));
         logoutBtn.setForeground(new java.awt.Color(255, 255, 255));
         logoutBtn.setText("Keluar");
         logoutBtn.setIconTextGap(10);
+        logoutBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutBtnActionPerformed(evt);
+            }
+        });
+
+        roundPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        roundPanel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(216, 216, 216), 1, true));
+
+        usernameLblProfile.setBackground(new java.awt.Color(255, 255, 255));
+        usernameLblProfile.setFont(new java.awt.Font("Inter",0,18));
+        usernameLblProfile.setForeground(new java.awt.Color(45, 55, 72));
+        usernameLblProfile.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        usernameLblProfile.setText("username");
+
+        lblRoleProfile.setBackground(new java.awt.Color(255, 255, 255));
+        lblRoleProfile.setFont(new java.awt.Font("Inter",0,14));
+        lblRoleProfile.setForeground(new java.awt.Color(0, 6, 6));
+        lblRoleProfile.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblRoleProfile.setText("role");
+
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/iconProfiles.png"))); // NOI18N
+
+        javax.swing.GroupLayout roundPanel3Layout = new javax.swing.GroupLayout(roundPanel3);
+        roundPanel3.setLayout(roundPanel3Layout);
+        roundPanel3Layout.setHorizontalGroup(
+            roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundPanel3Layout.createSequentialGroup()
+                .addGroup(roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(roundPanel3Layout.createSequentialGroup()
+                        .addGap(111, 111, 111)
+                        .addComponent(usernameLblProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(roundPanel3Layout.createSequentialGroup()
+                        .addGap(154, 154, 154)
+                        .addComponent(lblRoleProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(roundPanel3Layout.createSequentialGroup()
+                        .addGap(99, 99, 99)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(119, Short.MAX_VALUE))
+        );
+        roundPanel3Layout.setVerticalGroup(
+            roundPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel3Layout.createSequentialGroup()
+                .addContainerGap(29, Short.MAX_VALUE)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(usernameLblProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblRoleProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
+        );
 
         javax.swing.GroupLayout profilePnlLayout = new javax.swing.GroupLayout(profilePnl);
         profilePnl.setLayout(profilePnlLayout);
         profilePnlLayout.setHorizontalGroup(
             profilePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(profilePnlLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(profilePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(profilePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, profilePnlLayout.createSequentialGroup()
-                            .addGap(252, 252, 252)
-                            .addComponent(profileEditBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, profilePnlLayout.createSequentialGroup()
-                            .addGap(21, 21, 21)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(profilePnlLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(profilePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(judulProfilePnl, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(593, Short.MAX_VALUE))
+                    .addComponent(judulProfilePnl, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(723, Short.MAX_VALUE))
+            .addGroup(profilePnlLayout.createSequentialGroup()
+                .addGroup(profilePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, profilePnlLayout.createSequentialGroup()
+                        .addGap(252, 252, 252)
+                        .addComponent(profileEditBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, profilePnlLayout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(roundPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43))
         );
         profilePnlLayout.setVerticalGroup(
             profilePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -807,7 +974,9 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(profilePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(roundPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(46, 46, 46)
                 .addGroup(profilePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(profileEditBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -843,26 +1012,25 @@ public class Dashboard extends javax.swing.JFrame {
     private void transaksiBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transaksiBtnActionPerformed
         panelPilihan = 1;
         setViewBtn();
-        readData();
+        readDataTransaction();
     }//GEN-LAST:event_transaksiBtnActionPerformed
 
     private void kategoriBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kategoriBtnActionPerformed
         panelPilihan = 2;
         setViewBtn();
-        readData();
+        readDataKategori();
     }//GEN-LAST:event_kategoriBtnActionPerformed
 
     private void laporanBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_laporanBtnActionPerformed
         panelPilihan = 3;
         setViewBtn();
+        showChart();
     }//GEN-LAST:event_laporanBtnActionPerformed
 
     private void profileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileBtnActionPerformed
        panelPilihan = 4;
        setViewBtn();
-//       profileBtn.setText("");
-//       profileBtn.setIcon(null);
-//       profileBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/hoverProfile.png")));
+       
     }//GEN-LAST:event_profileBtnActionPerformed
 
     private void addTransaksiBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTransaksiBtnActionPerformed
@@ -886,23 +1054,37 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_tableTransaksiMouseClicked
 
     private void addKategoriBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addKategoriBtnActionPerformed
-        // TODO add your handling code here:
+        CreateCategory createCategory = new CreateCategory(false, null, idUser);
+        createCategory.setVisible(true);
     }//GEN-LAST:event_addKategoriBtnActionPerformed
 
     private void tableKategoriMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableKategoriMouseClicked
         
-        int id = Integer.parseInt(tableTransaksi.getValueAt(tableTransaksi.getSelectedRow(), 1).toString());
-        String date = tableTransaksi.getValueAt(tableTransaksi.getSelectedRow(), 2).toString();
-        String type = tableTransaksi.getValueAt(tableTransaksi.getSelectedRow(), 3).toString();
-        String category = tableTransaksi.getValueAt(tableTransaksi.getSelectedRow(), 4).toString();
-        int value = Integer.parseInt(tableTransaksi.getValueAt(tableTransaksi.getSelectedRow(), 5).toString());
-        String description = tableTransaksi.getValueAt(tableTransaksi.getSelectedRow(), 6).toString();
+        int id = Integer.parseInt(tableKategori.getValueAt(tableKategori.getSelectedRow(), 1).toString());
+        String nama = tableKategori.getValueAt(tableKategori.getSelectedRow(), 2).toString();
+        String type = tableKategori.getValueAt(tableKategori.getSelectedRow(), 3).toString();
         
-        dataTransactions = new DataTransactions(id, date, type, category, value, description);
         
-//        createTransactions = new CreateTransactions(true, dataTransactions, idUser);
-//        createTransactions.setVisible(true);
+        DataCategories dataCategories = new DataCategories(id, nama, type);
+        CreateCategory createCategory = new CreateCategory(true, dataCategories, idUser);
+        createCategory.setVisible(true);
     }//GEN-LAST:event_tableKategoriMouseClicked
+
+    private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
+        this.dispose();
+        AuthPage temp = new AuthPage();
+        temp.setVisible(true);
+    }//GEN-LAST:event_logoutBtnActionPerformed
+
+    private void profileEditBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileEditBtnActionPerformed
+        String username = uProfileFld.getText();
+        String password = String.valueOf(pProfileFld.getPassword());
+        String fullname = nProfileFld.getText();
+        
+        if(updateDataUser(fullname, username, password, this.idUser)){
+           JOptionPane.showMessageDialog(null, "Perubahan data berhasil");
+       }
+    }//GEN-LAST:event_profileEditBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -954,6 +1136,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -969,8 +1152,10 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel labelKategori1;
     private javax.swing.JButton laporanBtn;
     private javax.swing.JPanel laporanPnl;
+    private javax.swing.JLabel lblRoleProfile;
     private javax.swing.JButton logoutBtn;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JTextField nProfileFld;
     private javax.swing.JPanel navbarPanel;
     private javax.swing.JPasswordField pProfileFld;
     private component.RoundPanel panelPemasukan;
@@ -978,13 +1163,14 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton profileBtn;
     private javax.swing.JButton profileEditBtn;
     private javax.swing.JPanel profilePnl;
-    private javax.swing.JTextField rProfileFLd;
     private component.RoundPanel roundPanel1;
+    private component.RoundPanel roundPanel3;
     private javax.swing.JTable tableKategori;
     private javax.swing.JTable tableTransaksi;
     private javax.swing.JButton transaksiBtn;
     private javax.swing.JPanel transaksiPnl;
     private javax.swing.JTextField uProfileFld;
+    private javax.swing.JLabel usernameLblProfile;
     // End of variables declaration//GEN-END:variables
     JButton[] arrButton;
     JPanel[] arrPanel;

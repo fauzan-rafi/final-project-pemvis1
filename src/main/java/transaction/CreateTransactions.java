@@ -41,7 +41,6 @@ public class CreateTransactions extends JFrame {
         setFrame();
         setJudulLabel();
         fillDataKategori();
-        setButton(edit);
         
 //      set data id
         if(data != null){
@@ -57,11 +56,17 @@ public class CreateTransactions extends JFrame {
         
 //      set id user
         this.idUser = idUser;
+        
+        setButton(edit);
     }
     
     private void setButton(boolean edit){
         if(edit){
-            deleteBtn.setVisible(true);
+            if(isAdmin()){
+                deleteBtn.setVisible(true);
+            }else{
+                deleteBtn.setVisible(false);
+            }
             editBtn.setVisible(true);
             addBtn.setVisible(false);
         }else{
@@ -74,7 +79,6 @@ public class CreateTransactions extends JFrame {
     
     private void setFrame(){
         setSize(553, 750);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setTitle("Add Transaction");
     }
@@ -187,6 +191,26 @@ public class CreateTransactions extends JFrame {
         return result;
     }
     
+    
+    private boolean isAdmin(){
+        boolean result = false;
+        try {
+            String sql = "select rule from users where id='"+this.idUser+"'";
+            java.sql.Connection conn=(Connection)Config.configDB();
+            java.sql.Statement stm=conn.createStatement();
+            java.sql.ResultSet res=stm.executeQuery(sql);
+            while(res.next()){
+                if(res.getString("rule").equals("admin")){
+                    result = true;
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        
+        return result;
+    }
+    
 //    ----------------------------------------------------------------------------------------------------------------
     
     private void fillFormData()throws Exception {
@@ -219,6 +243,7 @@ public class CreateTransactions extends JFrame {
         editBtn = new javax.swing.JButton();
         deleteBtn = new javax.swing.JButton();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Add transaction");
         setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(553, 750));
