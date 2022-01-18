@@ -95,7 +95,7 @@ public class CreateCategory extends javax.swing.JFrame {
     private boolean insertData(String title, String tipe){
         boolean result = false;
         try{
-            String sql = "INSERT INTO categories (title, tipe) VALUES ('"+title+"','"+tipe+"')" ;
+            String sql = "INSERT INTO categories (title, type) VALUES ('"+title+"','"+tipe+"')" ;
             java.sql.Connection conn= (Connection)config.configDB();
             java.sql.PreparedStatement pst= conn.prepareStatement(sql);
             pst.execute();
